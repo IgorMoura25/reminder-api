@@ -22,8 +22,9 @@
   },
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Api/1.0.0": {
+      "Api/0.1.0-beta.3": {
         "dependencies": {
+          "GitVersion.MsBuild": "5.7.0",
           "Swashbuckle.AspNetCore": "6.2.1",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
@@ -315,6 +316,7 @@
           "Api.dll": {}
         }
       },
+      "GitVersion.MsBuild/5.7.0": {},
       "Microsoft.Extensions.ApiDescription.Server/3.0.0": {},
       "Microsoft.OpenApi/1.2.3": {
         "runtime": {
@@ -2069,10 +2071,17 @@
     }
   },
   "libraries": {
-    "Api/1.0.0": {
+    "Api/0.1.0-beta.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "GitVersion.MsBuild/5.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GkU83uopX2vjuNkVpfWdoZSPwxVJ2V6JGLbu4lfh9ucD9xKLuekYx11Ksy1lhbv4hWlrq1xZ0cH0PaPf4UOyqA==",
+      "path": "gitversion.msbuild/5.7.0",
+      "hashPath": "gitversion.msbuild.5.7.0.nupkg.sha512"
     },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "type": "package",

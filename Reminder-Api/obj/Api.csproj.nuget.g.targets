@@ -5,5 +5,6 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
+    <Import Project="$(NuGetPackageRoot)gitversion.msbuild\5.7.0\build\GitVersion.MsBuild.targets" Condition="Exists('$(NuGetPackageRoot)gitversion.msbuild\5.7.0\build\GitVersion.MsBuild.targets')" />
   </ImportGroup>
 </Project>

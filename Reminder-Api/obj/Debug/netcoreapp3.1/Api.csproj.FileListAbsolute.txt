@@ -7,7 +7,6 @@ C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Api.runtimeconfig.
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Api.runtimeconfig.dev.json
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Api.dll
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Api.pdb
-C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csprojAssemblyReference.cache
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfoInputs.cache
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfo.cs
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.RazorTargetAssemblyInfo.cache
@@ -20,7 +19,9 @@ C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\projects\reminder\api\Reminder-Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csproj.CopyComplete
+C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\GitVersionInformation.g.cs
+C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\AssemblyInfo.g.cs
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
-C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csproj.CopyComplete
