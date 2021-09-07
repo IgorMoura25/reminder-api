@@ -24,10 +24,7 @@ namespace Reminder_Api.Controllers
         [Route("product-version")]
         public string GetProductVersion()
         {
-            var productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
-
-            var indexOfPlus = productVersion.IndexOf('+');
-            return productVersion.Remove(indexOfPlus);
+            return Version.ProductVersion;
         }
     }
 }

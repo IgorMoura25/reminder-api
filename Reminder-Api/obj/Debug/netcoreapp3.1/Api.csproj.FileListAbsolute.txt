@@ -25,3 +25,4 @@ C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\AssemblyInfo.g.cs
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
+C:\projects\reminder\api\Reminder-Api\obj\Debug\netcoreapp3.1\Api.csprojAssemblyReference.cache
