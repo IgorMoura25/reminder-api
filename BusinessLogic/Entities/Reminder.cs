@@ -1,7 +1,7 @@
-﻿using Models;
+﻿using Reminder.Models;
 using System;
 
-namespace BusinessLogic
+namespace Reminder.Business.Entities
 {
     public class Reminder
     {

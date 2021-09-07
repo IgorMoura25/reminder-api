@@ -1,8 +1,7 @@
-﻿using BusinessLogic;
-using Microsoft.AspNetCore.Mvc;
-using Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Reminder.Models;
 
-namespace Reminder_Api.Controllers
+namespace Reminder.Api.Controllers
 {
     [ApiController]
     [Route("reminder")]
@@ -12,7 +11,7 @@ namespace Reminder_Api.Controllers
         [Route("{reminderId}")]
         public ReminderDataObject GetProductVersion(long reminderId)
         {
-            return new Reminder().GetReminderById(reminderId);
+            return new Business.Entities.Reminder().GetReminderById(reminderId);
         }
     }
 }

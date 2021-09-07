@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models
+namespace Reminder.Models
 {
     public class ReminderDataObject
     {
