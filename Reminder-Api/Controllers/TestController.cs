@@ -21,7 +21,7 @@ namespace Reminder_Api.Controllers
         }
 
         [HttpGet]
-        [Route("product-version")]
+        [Route("product-formatted-version")]
         public string GetProductVersion()
         {
             return Version.ProductVersion;
