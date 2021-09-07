@@ -18,7 +18,7 @@ ignore:
 branches:
     master:
         regex: ^master
-        mode: ContinuousDeployment
+        mode: ContinuousDelivery
         tag: ''
         increment: Minor
         prevent-increment-of-merged-branch-version: false
