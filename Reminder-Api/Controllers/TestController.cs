@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,14 +10,9 @@ using Microsoft.Extensions.Logging;
 namespace Reminder_Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("test")]
     public class TestController : ControllerBase
     {
-        private static readonly string[] Tests = new[]
-        {
-            "Test1", "Test2", "Test3"
-        };
-
         private readonly ILogger<TestController> _logger;
 
         public TestController(ILogger<TestController> logger)
@@ -24,9 +21,10 @@ namespace Reminder_Api.Controllers
         }
 
         [HttpGet]
-        public string[] Get()
+        [Route("product-version")]
+        public string GetProductVersion()
         {
-            return Tests;
+            return Version.ProductVersion;
         }
     }
 }
