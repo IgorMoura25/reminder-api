@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Reminder.Models
+namespace Reminder.Models.Entities
 {
-    public class ReminderDataObject
+    public class ReminderEntity
     {
         public long ReminderId { get; set; }
         public DateTime CreatedDate { get; set; }

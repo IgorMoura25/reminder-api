@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Reminder.Models;
+using Reminder.Business.Handlers;
+using Reminder.Models.Entities;
 
 namespace Reminder.Api.Controllers
 {
@@ -9,9 +10,9 @@ namespace Reminder.Api.Controllers
     {
         [HttpGet]
         [Route("{reminderId}")]
-        public ReminderDataObject GetProductVersion(long reminderId)
+        public ReminderEntity GetProductVersion(long reminderId)
         {
-            return new Business.Entities.Reminder().GetReminderById(reminderId);
+            return new ReminderHandler().GetReminderById(reminderId);
         }
     }
 }
