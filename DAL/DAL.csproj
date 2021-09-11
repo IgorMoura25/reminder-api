@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.48" />
+    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.49" />
   </ItemGroup>
 
   <ItemGroup>
