@@ -10,7 +10,7 @@ namespace Reminder.Api.Controllers
     {
         [HttpGet]
         [Route("{reminderId}")]
-        public ReminderEntity GetProductVersion(long reminderId)
+        public ReminderEntity GetReminderById(long reminderId)
         {
             return new ReminderHandler().GetReminderById(reminderId);
         }
