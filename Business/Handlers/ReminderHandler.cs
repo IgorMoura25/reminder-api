@@ -1,8 +1,8 @@
-﻿using DAL;
-using DAL.SqlServer;
-using Reminder.Models.Entities;
+﻿using IgorMoura.Reminder.DAL;
+using IgorMoura.Reminder.DAL.SqlServer;
+using IgorMoura.Reminder.Models.Entities;
 
-namespace Reminder.Business.Handlers
+namespace IgorMoura.Reminder.Business.Handlers
 {
     public class ReminderHandler
     {

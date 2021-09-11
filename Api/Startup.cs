@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace Reminder.Api
+namespace IgorMoura.Reminder.Api
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
-﻿using Reminder.Models.DataObjects.Reminder;
+﻿using IgorMoura.Reminder.Models.DataObjects.Reminder;
 
-namespace DAL.SqlServer
+namespace IgorMoura.Reminder.DAL.SqlServer
 {
     public class ReminderSqlServerDao : IReminderDao
     {

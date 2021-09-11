@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Reminder.Models.Entities
+namespace IgorMoura.Reminder.Models.Entities
 {
     public class ReminderEntity
     {

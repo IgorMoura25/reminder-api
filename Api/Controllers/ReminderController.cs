@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Reminder.Business.Handlers;
-using Reminder.Models.Entities;
+﻿using IgorMoura.Reminder.Business.Handlers;
+using IgorMoura.Reminder.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Reminder.Api.Controllers
+namespace IgorMoura.Reminder.Api.Controllers
 {
     [ApiController]
     [Route("reminder")]

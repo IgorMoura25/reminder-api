@@ -1,6 +1,6 @@
-﻿using Reminder.Models.DataObjects.Reminder;
+﻿using IgorMoura.Reminder.Models.DataObjects.Reminder;
 
-namespace DAL
+namespace IgorMoura.Reminder.DAL
 {
     public interface IReminderDao
     {
