@@ -1,8 +1,8 @@
-﻿using Util.Models;
+﻿using IgorMoura.Util.Models;
 
 namespace IgorMoura.Reminder.Models.DataObjects.Reminder
 {
-    public class GetReminderByIdRequestModel : DataRequestModel
+    public class GetReminderByIdRequestModel : GetDataRequestModel
     {
         public long ReminderId { get; set; }
     }
