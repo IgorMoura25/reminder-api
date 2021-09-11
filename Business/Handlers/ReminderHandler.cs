@@ -1,4 +1,5 @@
-﻿using DAL.DataAccesses;
+﻿using DAL;
+using DAL.SqlServer;
 using Reminder.Models.Entities;
 
 namespace Reminder.Business.Handlers
@@ -7,7 +8,7 @@ namespace Reminder.Business.Handlers
     {
         public ReminderEntity GetReminderById(long reminderId)
         {
-            var dataAccess = new ReminderDataAccess();
+            IReminderDao dataAccess = new ReminderSqlServerDao();
 
             var response = dataAccess.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
             {
