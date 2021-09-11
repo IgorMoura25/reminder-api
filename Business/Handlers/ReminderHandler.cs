@@ -1,16 +1,19 @@
 ﻿using IgorMoura.Reminder.DAL;
-using IgorMoura.Reminder.DAL.SqlServer;
 using IgorMoura.Reminder.Models.Entities;
 
 namespace IgorMoura.Reminder.Business.Handlers
 {
     public class ReminderHandler
     {
+        private IReminderDao _reminderDao { get; }
+        public ReminderHandler(IReminderDao reminderDao)
+        {
+            _reminderDao = reminderDao;
+        }
+
         public ReminderEntity GetReminderById(long reminderId)
         {
-            IReminderDao dataAccess = new ReminderSqlServerDao();
-
-            var response = dataAccess.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
+            var response = _reminderDao.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
             {
                 ReminderId = reminderId
             });

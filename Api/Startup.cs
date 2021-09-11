@@ -1,9 +1,12 @@
+using IgorMoura.Reminder.DAL;
+using IgorMoura.Reminder.DAL.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using IgorMoura.Reminder.Business.Extensions;
 
 namespace IgorMoura.Reminder.Api
 {
@@ -19,6 +22,9 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterHandlers();
+            services.RegisterDataAccesses();
+
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
