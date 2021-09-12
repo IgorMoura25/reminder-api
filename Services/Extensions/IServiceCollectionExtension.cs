@@ -1,5 +1,6 @@
-﻿using IgorMoura.Reminder.Services.Handlers;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using IgorMoura.Reminder.Services.Handlers;
+using Reminder.Services.Interfaces;
 
 namespace IgorMoura.Reminder.Services.Extensions
 {
@@ -7,7 +8,7 @@ namespace IgorMoura.Reminder.Services.Extensions
     {
         public static void RegisterHandlers(this IServiceCollection services)
         {
-            services.AddSingleton<ReminderHandler>();
+            services.AddSingleton<IReminderHandler, ReminderHandler>();
         }
     }
 }
