@@ -1,4 +1,4 @@
-﻿using IgorMoura.Reminder.Business.Handlers;
+﻿using IgorMoura.Reminder.Services.Handlers;
 using IgorMoura.Reminder.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 

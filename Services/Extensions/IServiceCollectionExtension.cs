@@ -1,7 +1,7 @@
-﻿using IgorMoura.Reminder.Business.Handlers;
+﻿using IgorMoura.Reminder.Services.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IgorMoura.Reminder.Business.Extensions
+namespace IgorMoura.Reminder.Services.Extensions
 {
     public static class IServiceCollectionExtension
     {

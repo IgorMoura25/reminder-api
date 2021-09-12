@@ -1,8 +1,7 @@
-﻿using IgorMoura.Reminder.DAL;
-using IgorMoura.Reminder.DAL.SqlServer;
+﻿using IgorMoura.Reminder.DAL.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IgorMoura.Reminder.Business.Extensions
+namespace IgorMoura.Reminder.DAL.Extensions
 {
     public static class IServiceCollectionExtension
     {

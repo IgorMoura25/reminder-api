@@ -1,7 +1,7 @@
 ﻿using IgorMoura.Reminder.DAL;
 using IgorMoura.Reminder.Models.Entities;
 
-namespace IgorMoura.Reminder.Business.Handlers
+namespace IgorMoura.Reminder.Services.Handlers
 {
     public class ReminderHandler
     {
