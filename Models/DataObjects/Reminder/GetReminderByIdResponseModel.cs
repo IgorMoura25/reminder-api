@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Reminder.Models.DataObjects.Reminder
+namespace IgorMoura.Reminder.Models.DataObjects.Reminder
 {
     public class GetReminderByIdResponseModel
     {

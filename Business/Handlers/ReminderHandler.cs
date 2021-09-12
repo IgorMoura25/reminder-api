@@ -1,15 +1,19 @@
-﻿using DAL.DataAccesses;
-using Reminder.Models.Entities;
+﻿using IgorMoura.Reminder.DAL;
+using IgorMoura.Reminder.Models.Entities;
 
-namespace Reminder.Business.Handlers
+namespace IgorMoura.Reminder.Business.Handlers
 {
     public class ReminderHandler
     {
+        private IReminderDao _reminderDao { get; }
+        public ReminderHandler(IReminderDao reminderDao)
+        {
+            _reminderDao = reminderDao;
+        }
+
         public ReminderEntity GetReminderById(long reminderId)
         {
-            var dataAccess = new ReminderDataAccess();
-
-            var response = dataAccess.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
+            var response = _reminderDao.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
             {
                 ReminderId = reminderId
             });

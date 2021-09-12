@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Reminder.Api
+namespace IgorMoura.Reminder.Api
 {
     public class Program
     {
