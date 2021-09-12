@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Reminder.Business</RootNamespace>
+    <RootNamespace>Reminder.Services</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

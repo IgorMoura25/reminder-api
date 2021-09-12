@@ -1,9 +1,10 @@
 ﻿using IgorMoura.Reminder.DAL;
 using IgorMoura.Reminder.Models.Entities;
+using Reminder.Services.Interfaces;
 
-namespace IgorMoura.Reminder.Business.Handlers
+namespace IgorMoura.Reminder.Services.Handlers
 {
-    public class ReminderHandler
+    public class ReminderHandler : IReminderHandler
     {
         private IReminderDao _reminderDao { get; }
         public ReminderHandler(IReminderDao reminderDao)

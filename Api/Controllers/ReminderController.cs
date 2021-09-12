@@ -1,26 +1,25 @@
-﻿using IgorMoura.Reminder.Business.Handlers;
+﻿using Microsoft.AspNetCore.Mvc;
 using IgorMoura.Reminder.Models.Entities;
-using Microsoft.AspNetCore.Mvc;
+using Reminder.Services.Interfaces;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {
     [ApiController]
-    [Route("reminder")]
     public class ReminderController : ControllerBase
     {
         #region Handlers
-        private ReminderHandler _reminderHandler { get; }
+        private IReminderHandler _reminderHandler { get; }
         #endregion
 
         #region Constructors
-        public ReminderController(ReminderHandler reminderHandler)
+        public ReminderController(IReminderHandler reminderHandler)
         {
             _reminderHandler = reminderHandler;
         }
         #endregion
 
         [HttpGet]
-        [Route("{reminderId}")]
+        [Route("reminder/{reminderId}")]
         public ReminderEntity GetReminderById(long reminderId)
         {
             return _reminderHandler.GetReminderById(reminderId);
