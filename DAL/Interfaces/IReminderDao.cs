@@ -2,8 +2,7 @@
 
 namespace IgorMoura.Reminder.DAL.Interfaces
 {
-    public interface IReminderDao
+    public interface IReminderDao : ISingleQuery<GetReminderByIdResponseModel>
     {
-        public GetReminderByIdResponseModel GetReminderById(GetReminderByIdRequestModel model);
     }
 }

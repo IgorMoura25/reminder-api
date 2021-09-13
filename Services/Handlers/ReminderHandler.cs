@@ -7,6 +7,7 @@ namespace IgorMoura.Reminder.Services.Handlers
     public class ReminderHandler : IReminderHandler
     {
         private IReminderDao _reminderDao { get; }
+
         public ReminderHandler(IReminderDao reminderDao)
         {
             _reminderDao = reminderDao;
@@ -14,7 +15,7 @@ namespace IgorMoura.Reminder.Services.Handlers
 
         public ReminderEntity GetReminderById(long reminderId)
         {
-            var response = _reminderDao.GetReminderById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
+            var response = _reminderDao.GetById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
             {
                 ReminderId = reminderId
             });

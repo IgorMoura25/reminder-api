@@ -1,15 +1,22 @@
 ﻿using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.Reminder;
+using IgorMoura.Util.Data;
+using IgorMoura.Util.Models;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {
     public class ReminderSqlServerDao : IReminderDao
     {
-        public GetReminderByIdResponseModel GetReminderById(GetReminderByIdRequestModel model)
-        {
-            var connector = new Util.Data.DbConnectors.SqlServerConnector();
+        private IDbConnector _connector { get; }
 
-            return connector.ExecuteGetProcedure<GetReminderByIdResponseModel>("SP_RMD_GET_ReminderById", model);
+        public ReminderSqlServerDao(IDbConnector dbConnector)
+        {
+            _connector = dbConnector;
+        }
+
+        public GetReminderByIdResponseModel GetById(GetDataRequestModel model)
+        {
+            return _connector.ExecuteGetProcedure<GetReminderByIdResponseModel>("SP_RMD_GET_ReminderById", model);
         }
     }
 }
