@@ -1,6 +1,6 @@
-﻿using IgorMoura.Reminder.DAL;
+﻿using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
-using Reminder.Services.Interfaces;
+using IgorMoura.Reminder.Services.Interfaces;
 
 namespace IgorMoura.Reminder.Services.Handlers
 {

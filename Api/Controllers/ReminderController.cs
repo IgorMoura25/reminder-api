@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IgorMoura.Reminder.Models.Entities;
-using Reminder.Services.Interfaces;
+using IgorMoura.Reminder.Services.Interfaces;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {

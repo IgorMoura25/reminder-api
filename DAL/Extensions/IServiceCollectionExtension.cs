@@ -1,4 +1,5 @@
-﻿using IgorMoura.Reminder.DAL.SqlServer;
+﻿using IgorMoura.Reminder.DAL.Interfaces;
+using IgorMoura.Reminder.DAL.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IgorMoura.Reminder.DAL.Extensions

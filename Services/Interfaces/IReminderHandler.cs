@@ -1,6 +1,6 @@
 ﻿using IgorMoura.Reminder.Models.Entities;
 
-namespace Reminder.Services.Interfaces
+namespace IgorMoura.Reminder.Services.Interfaces
 {
     public interface IReminderHandler
     {

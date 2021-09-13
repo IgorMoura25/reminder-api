@@ -1,4 +1,5 @@
-﻿using IgorMoura.Reminder.Models.DataObjects.Reminder;
+﻿using IgorMoura.Reminder.DAL.Interfaces;
+using IgorMoura.Reminder.Models.DataObjects.Reminder;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {

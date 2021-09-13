@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using IgorMoura.Reminder.Services.Handlers;
-using Reminder.Services.Interfaces;
+using IgorMoura.Reminder.Services.Interfaces;
 
 namespace IgorMoura.Reminder.Services.Extensions
 {
