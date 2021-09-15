@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.Reminder.DAL.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace IgorMoura.Reminder.Api
 {
@@ -25,6 +27,25 @@ namespace IgorMoura.Reminder.Api
             services.RegisterDataAccesses();
 
             services.AddControllers();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            }).AddJwtBearer("JwtBearer", options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("token-maior-que-256-bits-guid")),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "Reminder.Api",
+                    ValidAudience = "Postman"
+                };
+            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
