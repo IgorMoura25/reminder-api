@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Reminder.Models</RootNamespace>
+    <RootNamespace>IgorMoura.Reminder.Models</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.54" />
+    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.55" />
   </ItemGroup>
 
 </Project>
