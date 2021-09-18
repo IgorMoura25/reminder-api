@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 
-namespace IdentityDAL.Entities
+namespace IgorMoura.IdentityDAL.Entities
 {
     public class IdentityUser : IUser<string>
     {

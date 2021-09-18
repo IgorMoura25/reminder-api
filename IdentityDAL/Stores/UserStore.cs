@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using IgorMoura.Util.Data;
-using IdentityDAL.Entities;
-using IdentityDAL.DataObjects;
+using IgorMoura.IdentityDAL.Entities;
+using IgorMoura.IdentityDAL.DataObjects;
 
-namespace IdentityDAL.Stores
+namespace IgorMoura.IdentityDAL.Stores
 {
     public class UserStore : IUserStore<IdentityUser, string>
     {

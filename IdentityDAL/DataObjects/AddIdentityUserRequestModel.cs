@@ -1,6 +1,6 @@
 ﻿using IgorMoura.Util.Models;
 
-namespace IdentityDAL.DataObjects
+namespace IgorMoura.IdentityDAL.DataObjects
 {
     public class AddIdentityUserRequestModel : AddDataRequestModel
     {
