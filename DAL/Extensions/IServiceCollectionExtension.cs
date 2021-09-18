@@ -7,6 +7,8 @@ using IgorMoura.IdentityDAL.Stores;
 
 namespace IgorMoura.Reminder.DAL.Extensions
 {
+    //TODO: Aplicar em todas as extensões o TryAddScoped
+    //TODO: Quando tudo sobre Identity estiver terminado -> Desacoplar a dependência de projeto com IdentityDAL e acoplar como nuget package
     public static class IServiceCollectionExtension
     {
         public static void RegisterDataAccesses(this IServiceCollection services)
