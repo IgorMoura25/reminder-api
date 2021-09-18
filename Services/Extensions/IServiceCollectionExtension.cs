@@ -9,6 +9,7 @@ namespace IgorMoura.Reminder.Services.Extensions
         public static void RegisterHandlers(this IServiceCollection services)
         {
             services.AddSingleton<IReminderHandler, ReminderHandler>();
+            services.AddSingleton<IUserHandler, UserHandler>();
         }
     }
 }

@@ -7,10 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.55" />
+    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.56" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IdentityDAL\IdentityDAL.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 

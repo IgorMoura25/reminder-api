@@ -2,7 +2,7 @@
 
 namespace IgorMoura.Reminder.DAL.Interfaces
 {
-    public interface ICommand<T>
+    public interface ICommand
     {
         public long Add(AddDataRequestModel model);
     }

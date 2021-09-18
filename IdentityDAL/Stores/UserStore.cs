@@ -7,6 +7,7 @@ using IgorMoura.IdentityDAL.DataObjects;
 
 namespace IgorMoura.IdentityDAL.Stores
 {
+    //TODO: Aplicar Liskov Principle -> Implementar toda a interface sem exceções
     public class UserStore : IUserStore<IdentityUser, string>
     {
         private IDbConnector _connector { get; }
@@ -20,13 +21,12 @@ namespace IgorMoura.IdentityDAL.Stores
         {
             var requestModel = new AddIdentityUserRequestModel()
             {
-                UserId = Convert.ToInt64(user.Id),
                 Name = user.UserName
             };
 
-            _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
+            var result = _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
 
-            return Task.FromResult(IdentityResult.Success);
+            return Task.FromResult(result);
         }
 
         public Task DeleteAsync(IdentityUser user)
@@ -46,7 +46,25 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task<IdentityUser> FindByNameAsync(string userName)
         {
-            throw new NotImplementedException();
+            var requestModel = new GetIdentityUserByUserNameRequestModel()
+            {
+                UserName = userName
+            };
+
+            var response = _connector.ExecuteGetProcedure<GetIdentityUserByUserNameResponseModel>("ISP_RMD_GET_IdentityUserByUserName", requestModel);
+
+            IdentityUser user = null;
+
+            if (response != null)
+            {
+                user = new IdentityUser()
+                {
+                    Id = response.UserId.ToString(),
+                    UserName = response.UserName
+                };
+            }
+
+            return Task.FromResult(user);
         }
 
         public Task UpdateAsync(IdentityUser user)
