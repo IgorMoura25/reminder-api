@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,12 +25,18 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // DI Registration
+            services.RegisterConnectors();
+            services.RegisterIdentity();
             services.RegisterDataAccesses();
             services.RegisterHandlers();
-            services.RegisterCustomIdentityStore();
+
+            //TODO: Usar o AddIdentity quando for adicionar roles, ou tentar fazer com esse mesmo
+            services.AddIdentityCore<IdentityUser>().AddDefaultTokenProviders();
 
             services.AddControllers();
 
+            // JWT
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
@@ -79,6 +86,7 @@ namespace IgorMoura.Reminder.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

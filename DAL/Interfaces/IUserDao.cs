@@ -1,6 +1,6 @@
 ﻿namespace IgorMoura.Reminder.DAL.Interfaces
 {
-    public interface IUserDao : ICommand
+    public interface IUserDao : ICommandAsync
     {
     }
 }

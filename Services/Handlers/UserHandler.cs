@@ -1,4 +1,5 @@
-﻿using IgorMoura.Reminder.Services.Interfaces;
+﻿using System.Threading.Tasks;
+using IgorMoura.Reminder.Services.Interfaces;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Models.DataObjects.User;
@@ -14,9 +15,9 @@ namespace IgorMoura.Reminder.Services.Handlers
             _userDao = userDao;
         }
 
-        public long AddUser(UserEntity user)
+        public async Task<string> AddUserAsync(UserEntity user)
         {
-            var response = _userDao.Add(new AddUserRequestModel()
+            var response = await _userDao.AddAsync(new AddUserRequestModel()
             {
                 UserName = user.UserName,
                 Password = user.Password

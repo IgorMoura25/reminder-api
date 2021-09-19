@@ -1,9 +1,10 @@
-﻿using IgorMoura.Reminder.Models.Entities;
+﻿using System.Threading.Tasks;
+using IgorMoura.Reminder.Models.Entities;
 
 namespace IgorMoura.Reminder.Services.Interfaces
 {
     public interface IUserHandler
     {
-        public long AddUser(UserEntity user);
+        public Task<string> AddUserAsync(UserEntity user);
     }
 }

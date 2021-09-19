@@ -11,12 +11,16 @@ namespace IgorMoura.Reminder.DAL.Extensions
     //TODO: Quando tudo sobre Identity estiver terminado -> Desacoplar a dependência de projeto com IdentityDAL e acoplar como nuget package
     public static class IServiceCollectionExtension
     {
+        public static void RegisterConnectors(this IServiceCollection services)
+        { 
+            services.AddSingleton<IDbConnector, SqlServerConnector>(); 
+        }
+
         public static void RegisterDataAccesses(this IServiceCollection services)
         {
-            services.AddSingleton<IDbConnector, SqlServerConnector>();
             services.AddSingleton<IReminderDao, ReminderSqlServerDao>();
-            services.AddSingleton<IUserDao, UserSqlServerDao>();
-            services.AddSingleton(x => new UserStore(x.GetService<IDbConnector>()));
+            services.AddTransient<IUserDao, UserSqlServerDao>();
+            //services.AddSingleton(x => new UserStore(x.GetService<IDbConnector>()));
         }
     }
 }

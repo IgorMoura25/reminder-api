@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.AspNet.Identity;
-using IgorMoura.IdentityDAL.Entities;
-using IgorMoura.IdentityDAL.Stores;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.User;
 using IgorMoura.Util.Models;
@@ -10,33 +9,33 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 {
     public class UserSqlServerDao : IUserDao
     {
-        private UserStore _userStore { get; }
+        private UserManager<IdentityUser> _userManager { get; set; }
 
-        public UserSqlServerDao(UserStore userStore)
+        public UserSqlServerDao(UserManager<IdentityUser> userManager)
         {
-            _userStore = userStore;
+            _userManager = userManager;
         }
 
-        public long Add(AddDataRequestModel requestModel)
+        public async Task<string> AddAsync(AddDataRequestModel requestModel)
         {
             var model = (AddUserRequestModel)requestModel;
 
-            var userManager = new UserManager<IdentityUser, string>(_userStore);
-
-            var identityResult = userManager.Create(new IdentityUser()
+            var identityResult = await _userManager.CreateAsync(new IdentityUser()
             {
                 UserName = model.UserName
             });
 
-            if (!identityResult.Succeeded)
+            //TODO: Tratar erro corretamente
+            string userId = null;
+
+            if (identityResult.Succeeded)
             {
-                //TODO: Tratar corretamente o erro
-                return 0;
+                var identityUser = await _userManager.FindByNameAsync(model.UserName);
+
+                userId = identityUser.Id;
             }
 
-            var user = userManager.FindByName(model.UserName);
-
-            return Convert.ToInt64(user.Id);
+            return userId;
         }
     }
 }

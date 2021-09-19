@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using IgorMoura.Util.Data;
-using IgorMoura.IdentityDAL.Entities;
 using IgorMoura.IdentityDAL.DataObjects;
+using System.Threading;
 
 namespace IgorMoura.IdentityDAL.Stores
 {
     //TODO: Aplicar Liskov Principle -> Implementar toda a interface sem exceções
-    public class UserStore : IUserStore<IdentityUser, string>
+    public class UserStore : IUserStore<IdentityUser>
     {
         private IDbConnector _connector { get; }
 
@@ -17,59 +17,99 @@ namespace IgorMoura.IdentityDAL.Stores
             _connector = dbConnector;
         }
 
-        public Task CreateAsync(IdentityUser user)
+        public Task<string> GetUserIdAsync(IdentityUser user, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.Id);
+        }
+
+        public Task<string> GetUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task SetUserNameAsync(IdentityUser user, string userName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetNormalizedUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetNormalizedUserNameAsync(IdentityUser user, string normalizedName, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.NormalizedUserName = normalizedName.ToUpper();
+
+            return Task.CompletedTask;
+        }
+
+        public Task<IdentityResult> CreateAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var requestModel = new AddIdentityUserRequestModel()
             {
-                Name = user.UserName
+                OperationUserId = user.Id,
+                UserName = user.UserName
             };
 
-            var result = _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
+            var result = _connector.ExecuteAddProcedure<string>("ISP_RMD_ADD_IdentityUser", requestModel);
 
-            return Task.FromResult(result);
+            //TODO: Tratar erro corretamente
+
+            return Task.FromResult(IdentityResult.Success);
+
         }
 
-        public Task DeleteAsync(IdentityUser user)
+        public Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void Dispose()
+        public Task<IdentityResult> DeleteAsync(IdentityUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityUser> FindByIdAsync(string userId)
+        public Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityUser> FindByNameAsync(string userName)
+        public Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var requestModel = new GetIdentityUserByUserNameRequestModel()
             {
-                UserName = userName
+                UserName = normalizedUserName
             };
 
             var response = _connector.ExecuteGetProcedure<GetIdentityUserByUserNameResponseModel>("ISP_RMD_GET_IdentityUserByUserName", requestModel);
 
-            IdentityUser user = null;
+            IdentityUser identityUser = null;
 
             if (response != null)
             {
-                user = new IdentityUser()
+                identityUser = new IdentityUser()
                 {
-                    Id = response.UserId.ToString(),
+                    Id = response.UserId,
                     UserName = response.UserName
                 };
             }
 
-            return Task.FromResult(user);
+            return Task.FromResult(identityUser);
         }
 
-        public Task UpdateAsync(IdentityUser user)
+        public void Dispose()
         {
-            throw new NotImplementedException();
         }
     }
 }

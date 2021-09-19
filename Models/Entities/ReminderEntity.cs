@@ -6,7 +6,7 @@ namespace IgorMoura.Reminder.Models.Entities
     {
         public long ReminderId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public long UserId { get; set; }
+        public string UserId { get; set; }
         public long ReminderStatusId { get; set; }
         public DateTime Deadline { get; set; }
     }

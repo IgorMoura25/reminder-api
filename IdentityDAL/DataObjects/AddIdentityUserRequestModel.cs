@@ -4,6 +4,7 @@ namespace IgorMoura.IdentityDAL.DataObjects
 {
     public class AddIdentityUserRequestModel : AddDataRequestModel
     {
-        public string Name { get; set; }
+        public string OperationUserId { get; set; }
+        public string UserName { get; set; }
     }
 }
