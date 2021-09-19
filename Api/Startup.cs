@@ -1,13 +1,14 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.Reminder.DAL.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using System;
+using IgorMoura.Reminder.Services.Extensions;
+using IgorMoura.IdentityDAL.Extensions;
 
 namespace IgorMoura.Reminder.Api
 {
@@ -23,8 +24,9 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterHandlers();
             services.RegisterDataAccesses();
+            services.RegisterHandlers();
+            services.RegisterCustomIdentityStore();
 
             services.AddControllers();
 
