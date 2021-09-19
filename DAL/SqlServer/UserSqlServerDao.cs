@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.User;
-using IgorMoura.Util.Models;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {
@@ -16,10 +15,8 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             _userManager = userManager;
         }
 
-        public async Task<string> AddAsync(AddDataRequestModel requestModel)
+        public async Task<string> AddAsync(AddUserRequestModel model)
         {
-            var model = (AddUserRequestModel)requestModel;
-
             var identityResult = await _userManager.CreateAsync(new IdentityUser()
             {
                 UserName = model.UserName
