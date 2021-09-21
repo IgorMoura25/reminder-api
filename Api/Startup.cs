@@ -32,11 +32,22 @@ namespace IgorMoura.Reminder.Api
             services.RegisterHandlers();
 
             //TODO: Usar o AddIdentity quando for adicionar roles, ou tentar fazer com esse mesmo
-            services.AddIdentityCore<IdentityUser>
-                (
-                    options => options.User.RequireUniqueEmail = true
-                )
-                .AddDefaultTokenProviders();
+            services.AddIdentityCore<IdentityUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+            })
+            .AddDefaultTokenProviders();
+
+            services.Configure<PasswordHasherOptions>(option =>
+            {
+                option.IterationCount = 12000;
+            });
 
             services.AddControllers();
 

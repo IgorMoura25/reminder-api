@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
@@ -31,7 +32,7 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             {
                 UserName = model.UserName,
                 Email = model.Email
-            });
+            }, model.Password);
 
             if (identityResult.Succeeded)
             {

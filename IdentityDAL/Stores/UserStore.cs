@@ -8,7 +8,7 @@ using System.Threading;
 namespace IgorMoura.IdentityDAL.Stores
 {
     //TODO: Aplicar Liskov Principle -> Implementar toda a interface sem exceções
-    public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>
+    public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPasswordStore<IdentityUser>
     {
         private IDbConnector _connector { get; }
 
@@ -60,7 +60,8 @@ namespace IgorMoura.IdentityDAL.Stores
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
-                NormalizedEmail = user.NormalizedEmail
+                NormalizedEmail = user.NormalizedEmail,
+                PasswordHash = user.PasswordHash
             };
 
             var result = _connector.ExecuteAddProcedure<string>("ISP_RMD_ADD_IdentityUser", requestModel);
@@ -109,10 +110,6 @@ namespace IgorMoura.IdentityDAL.Stores
             }
 
             return Task.FromResult(identityUser);
-        }
-
-        public void Dispose()
-        {
         }
 
         public Task SetEmailAsync(IdentityUser user, string email, CancellationToken cancellationToken)
@@ -173,6 +170,33 @@ namespace IgorMoura.IdentityDAL.Stores
             user.NormalizedEmail = normalizedEmail.ToUpper();
 
             return Task.CompletedTask;
+        }
+
+        public Task SetPasswordHashAsync(IdentityUser user, string passwordHash, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.PasswordHash = passwordHash;
+
+            return Task.CompletedTask;
+        }
+
+        public Task<string> GetPasswordHashAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.PasswordHash);
+        }
+
+        public Task<bool> HasPasswordAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash) && !string.IsNullOrWhiteSpace(user.PasswordHash));
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
