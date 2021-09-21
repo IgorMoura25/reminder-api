@@ -19,6 +19,7 @@ namespace IgorMoura.Reminder.Services.Handlers
         {
             var response = await _userDao.AddAsync(new AddUserRequestModel()
             {
+                Email = user.Email,
                 UserName = user.UserName,
                 Password = user.Password
             });

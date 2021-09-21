@@ -17,17 +17,25 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
         public async Task<string> AddAsync(AddUserRequestModel model)
         {
-            var identityResult = await _userManager.CreateAsync(new IdentityUser()
-            {
-                UserName = model.UserName
-            });
-
             //TODO: Tratar erro corretamente
             string userId = null;
 
+            var identityUser = await _userManager.FindByEmailAsync(model.Email);
+
+            if (identityUser != null)
+            {
+                return userId;
+            }
+
+            var identityResult = await _userManager.CreateAsync(new IdentityUser()
+            {
+                UserName = model.UserName,
+                Email = model.Email
+            });
+
             if (identityResult.Succeeded)
             {
-                var identityUser = await _userManager.FindByNameAsync(model.UserName);
+                identityUser = await _userManager.FindByNameAsync(model.UserName);
 
                 userId = identityUser.Id;
             }
