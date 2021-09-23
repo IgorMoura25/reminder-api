@@ -26,5 +26,16 @@ namespace IgorMoura.Reminder.Services.Handlers
 
             return response;
         }
+
+        public async Task<bool> ConfirmUserEmailAsync(EmailConfirmationEntity model)
+        {
+            var response = await _userDao.ConfirmUserEmailAsync(new ConfirmUserEmailRequestModel()
+            {
+                UserName = model.UserName,
+                Token = model.Token
+            });
+
+            return response;
+        }
     }
 }

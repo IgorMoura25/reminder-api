@@ -33,5 +33,12 @@ namespace IgorMoura.Reminder.Api.Controllers
         {
             return await _userHandler.AddUserAsync(user);
         }
+
+        [HttpPost]
+        [Route("user/confirmation")]
+        public async Task<bool> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
+        {
+            return await _userHandler.ConfirmUserEmailAsync(user);
+        }
     }
 }

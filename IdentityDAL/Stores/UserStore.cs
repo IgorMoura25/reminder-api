@@ -74,7 +74,24 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var requestModel = new UpdateIdentityUserByIdRequestModel()
+            {
+                OperationUserId = user.Id,
+                UserName = user.UserName,
+                NormalizedUserName = user.NormalizedUserName,
+                Email = user.Email,
+                NormalizedEmail = user.NormalizedEmail,
+                PasswordHash = user.PasswordHash,
+                EmailConfirmed = user.EmailConfirmed
+            };
+
+            var result = _connector.ExecuteUpdateProcedure("ISP_RMD_UPD_IdentityUserById", requestModel);
+
+            //TODO: Tratar erro corretamente
+
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> DeleteAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -105,7 +122,12 @@ namespace IgorMoura.IdentityDAL.Stores
                 identityUser = new IdentityUser()
                 {
                     Id = response.UserId,
-                    UserName = response.UserName
+                    UserName = response.UserName,
+                    Email = response.Email,
+                    NormalizedUserName = response.NormalizedUserName,
+                    NormalizedEmail = response.NormalizedEmail,
+                    PasswordHash = response.PasswordHash,
+                    EmailConfirmed = response.EmailConfirmed
                 };
             }
 
@@ -126,12 +148,18 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task<bool> GetEmailConfirmedAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.EmailConfirmed);
         }
 
         public Task SetEmailConfirmedAsync(IdentityUser user, bool confirmed, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.EmailConfirmed = confirmed;
+
+            return Task.CompletedTask;
         }
 
         public Task<IdentityUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
