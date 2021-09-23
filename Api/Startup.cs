@@ -1,13 +1,15 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.Reminder.DAL.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using System;
+using IgorMoura.Reminder.Services.Extensions;
+using IgorMoura.IdentityDAL.Extensions;
 
 namespace IgorMoura.Reminder.Api
 {
@@ -23,11 +25,33 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterHandlers();
+            // DI Registration
+            services.RegisterConnectors();
+            services.RegisterIdentity();
             services.RegisterDataAccesses();
+            services.RegisterHandlers();
+
+            //TODO: Usar o AddIdentity quando for adicionar roles, ou tentar fazer com esse mesmo
+            services.AddIdentityCore<IdentityUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+            })
+            .AddDefaultTokenProviders();
+
+            services.Configure<PasswordHasherOptions>(option =>
+            {
+                option.IterationCount = 12000;
+            });
 
             services.AddControllers();
 
+            // JWT
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
@@ -77,6 +101,7 @@ namespace IgorMoura.Reminder.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

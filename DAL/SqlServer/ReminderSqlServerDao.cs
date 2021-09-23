@@ -14,7 +14,7 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             _connector = dbConnector;
         }
 
-        public GetReminderByIdResponseModel GetById(GetDataRequestModel model)
+        public GetReminderByIdResponseModel GetById(GetReminderByIdRequestModel model)
         {
             return _connector.ExecuteGetProcedure<GetReminderByIdResponseModel>("SP_RMD_GET_ReminderById", model);
         }

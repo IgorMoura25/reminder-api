@@ -2,17 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>IgorMoura.Reminder.DAL</RootNamespace>
+    <RootNamespace>IgorMoura.IdentityDAL</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.10" />
     <PackageReference Include="Reminder-Util" Version="0.1.0-beta.57" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\IdentityDAL\IdentityDAL.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
 </Project>
