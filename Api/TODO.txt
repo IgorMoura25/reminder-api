@@ -5,3 +5,4 @@
     //TODO: Quando tudo sobre Identity estiver terminado -> Desacoplar a dependência de projeto com IdentityDAL e acoplar como nuget package
     //TODO: Tratar erros corretamente
     //TODO: Implementar todas as interfaces do identity Aplicar Liskov Principle -> Implementar toda a interface sem exceções
+    //TODO: Colocar todos os campos IsActive, CreatedAt e CreatedBy no Util

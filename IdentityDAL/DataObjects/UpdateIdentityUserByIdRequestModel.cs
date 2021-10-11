@@ -1,10 +1,11 @@
-﻿using IgorMoura.Util.Models;
+﻿using System;
+using IgorMoura.Util.Models;
 
 namespace IgorMoura.IdentityDAL.DataObjects
 {
     public class UpdateIdentityUserByIdRequestModel : UpdateDataRequestModel
     {
-        public string OperationUserId { get; set; }
+        public Guid? OperationUserId { get; set; }
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
         public string Email { get; set; }
