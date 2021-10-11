@@ -14,8 +14,7 @@ CREATE TABLE [dbo].[Users]
 	[PasswordHash] VARCHAR(MAX) NOT NULL,
 	[EmailConfirmed] BIT NOT NULL,
 	[IsActive] BIT NOT NULL,
-	[CreatedAt] DATETIME NOT NULL,
-	[CreatedByName] VARCHAR(50) NOT NULL
+	[CreatedAt] DATETIME NOT NULL
 )
 GO
 
