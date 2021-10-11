@@ -1,4 +1,5 @@
-﻿using IgorMoura.Reminder.DAL.Interfaces;
+﻿using System;
+using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
 
@@ -13,7 +14,7 @@ namespace IgorMoura.Reminder.Services.Handlers
             _reminderDao = reminderDao;
         }
 
-        public ReminderEntity GetReminderById(long reminderId)
+        public ReminderEntity GetReminderById(Guid? reminderId)
         {
             var response = _reminderDao.GetById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
             {
@@ -23,10 +24,11 @@ namespace IgorMoura.Reminder.Services.Handlers
             return new ReminderEntity()
             {
                 ReminderId = response.ReminderId,
-                CreatedDate = response.CreatedDate,
-                UserId = response.UserId,
                 ReminderStatusId = response.ReminderStatusId,
-                Deadline = response.Deadline
+                Deadline = response.Deadline,
+                IsActive = response.IsActive,
+                CreatedAt = response.CreatedAt,
+                CreatedBy = response.CreatedBy
             };
         }
     }

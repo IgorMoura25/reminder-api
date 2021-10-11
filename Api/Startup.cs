@@ -32,7 +32,6 @@ namespace IgorMoura.Reminder.Api
             services.AddSingleton(apiConfiguration);
 
             // DI Registration
-            //services.RegisterConnectors("Server=localhost; Database=Reminder_Dev; User Id=sa; Password=Cerc@tr0va-sqlserver;");
             services.RegisterConnectors(apiConfiguration.ConnectionString);
             services.RegisterIdentity(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
             services.RegisterDataAccesses();
@@ -64,7 +63,7 @@ namespace IgorMoura.Reminder.Api
                 options.DefaultChallengeScheme = "JwtBearer";
             }).AddJwtBearer("JwtBearer", options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
