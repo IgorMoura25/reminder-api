@@ -1,0 +1,9 @@
+﻿    //TODO: Retornar um json padrão com status, data, mensagem de erro
+    //TODO: Implementar testes de unidade para todas as funcionalidades antes de escalar
+    //TODO: Implementar CI/CD completo
+    //TODO: Quebrar AdminController em partials para User, etc...
+    //TODO: Retornar erros corretos NoContent, BadRequest, Unauthorized, ServerError, etc
+    //TODO: Quando tudo sobre Identity estiver terminado -> Desacoplar a dependência de projeto com IdentityDAL e acoplar como nuget package
+    //TODO: Tratar erros corretamente
+    //TODO: Substituir configs de email por variáveis .env
+    //TODO: Implementar todas as interfaces do identity Aplicar Liskov Principle -> Implementar toda a interface sem exceções
