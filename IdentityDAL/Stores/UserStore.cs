@@ -7,7 +7,6 @@ using System.Threading;
 
 namespace IgorMoura.IdentityDAL.Stores
 {
-    //TODO: Aplicar Liskov Principle -> Implementar toda a interface sem exceções
     public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPasswordStore<IdentityUser>
     {
         private IDbConnector _connector { get; }
@@ -66,8 +65,6 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var result = _connector.ExecuteAddProcedure<string>("ISP_RMD_ADD_IdentityUser", requestModel);
 
-            //TODO: Tratar erro corretamente
-
             return Task.FromResult(IdentityResult.Success);
 
         }
@@ -88,8 +85,6 @@ namespace IgorMoura.IdentityDAL.Stores
             };
 
             var result = _connector.ExecuteUpdateProcedure("ISP_RMD_UPD_IdentityUserById", requestModel);
-
-            //TODO: Tratar erro corretamente
 
             return Task.FromResult(IdentityResult.Success);
         }

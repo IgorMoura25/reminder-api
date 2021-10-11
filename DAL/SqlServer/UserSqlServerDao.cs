@@ -23,7 +23,6 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
         public async Task<string> AddAsync(AddUserRequestModel model)
         {
-            //TODO: Tratar erro corretamente
             string userId = null;
 
             var identityUser = await _userManager.FindByEmailAsync(model.Email);

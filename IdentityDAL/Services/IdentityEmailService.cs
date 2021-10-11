@@ -10,8 +10,6 @@ namespace IgorMoura.IdentityDAL.Services
 {
     public class IdentityEmailService
     {
-        //TODO: Substituir por variáveis .env
-
         private readonly string _emailUserName = "reminder.applications@gmail.com";
         private readonly string _emailPassword = "Cercatrova2501";
 
