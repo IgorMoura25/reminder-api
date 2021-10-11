@@ -34,7 +34,7 @@ namespace IgorMoura.Reminder.Api
             // DI Registration
             //services.RegisterConnectors("Server=localhost; Database=Reminder_Dev; User Id=sa; Password=Cerc@tr0va-sqlserver;");
             services.RegisterConnectors(apiConfiguration.ConnectionString);
-            services.RegisterIdentity();
+            services.RegisterIdentity(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
             services.RegisterDataAccesses();
             services.RegisterHandlers();
 

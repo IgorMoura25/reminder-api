@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IgorMoura.Reminder.Api.Configuration
+﻿namespace IgorMoura.Reminder.Api.Configuration
 {
     public interface IApiConfiguration
     {
         public string ConnectionString { get; set; }
+        public string IdentityEmailHost { get; set; }
+        public string IdentityEmailUserName { get; set; }
+        public string IdentityEmailPassword { get; set; }
     }
 }

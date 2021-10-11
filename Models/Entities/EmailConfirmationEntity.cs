@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace IgorMoura.Reminder.Models.Entities
+﻿namespace IgorMoura.Reminder.Models.Entities
 {
     public class EmailConfirmationEntity
     {

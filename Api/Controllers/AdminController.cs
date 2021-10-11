@@ -7,7 +7,7 @@ namespace IgorMoura.Reminder.Api.Controllers
 {
     [ApiController]
     [Route("admin")]
-    public class AdminController : ControllerBase
+    public partial class AdminController : ControllerBase
     {
         #region Handlers
         private IUserHandler _userHandler { get; }

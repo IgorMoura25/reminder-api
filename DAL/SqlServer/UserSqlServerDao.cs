@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.User;
 using IgorMoura.IdentityDAL.Services;
 using IgorMoura.IdentityDAL.Entities;
-using System.Text;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {
@@ -54,10 +51,6 @@ namespace IgorMoura.Reminder.DAL.SqlServer
         {
             var identityUser = await _userManager.FindByNameAsync(model.UserName);
 
-            //byte[] tokenBytes = Convert.FromBase64String(model.Token);
-
-            //var confirmationResult = await _userManager.ConfirmEmailAsync(identityUser, BitConverter.ToString(tokenBytes));
-
             var confirmationResult = await _userManager.ConfirmEmailAsync(identityUser, model.Token);
 
             return true;
@@ -66,9 +59,6 @@ namespace IgorMoura.Reminder.DAL.SqlServer
         private async Task SendConfirmationEmailToUserAsync(IdentityUser identityUser)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
-
-            //byte[] byteToken = Encoding.ASCII.GetBytes(token);
-            //string base64Token = Convert.ToBase64String(byteToken);
 
             await _identityEmailService.SendEmailAsync(new IdentityEmailEntity
             {

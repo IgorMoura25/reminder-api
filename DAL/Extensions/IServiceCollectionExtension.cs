@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.DAL.SqlServer;
-using IgorMoura.Util.Data.DbConnectors;
 using IgorMoura.Util.Data;
-using IgorMoura.IdentityDAL.Stores;
+using IgorMoura.Util.Data.DbConnectors;
 
 namespace IgorMoura.Reminder.DAL.Extensions
 {

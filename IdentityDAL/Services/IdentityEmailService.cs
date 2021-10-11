@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using IgorMoura.IdentityDAL.Entities;
 
@@ -10,12 +7,20 @@ namespace IgorMoura.IdentityDAL.Services
 {
     public class IdentityEmailService
     {
-        private readonly string _emailUserName = "reminder.applications@gmail.com";
-        private readonly string _emailPassword = "Cercatrova2501";
+        private string _emailUserName { get; set; }
+        private string _emailPassword { get; set; }
+        private string _emailHost { get; set; }
+
+        public IdentityEmailService(string emailHost, string emailUserName, string emailPassword)
+        {
+            _emailHost = emailHost;
+            _emailUserName = emailUserName;
+            _emailPassword = emailPassword;
+        }
 
         public async Task SendEmailAsync(IdentityEmailEntity identityEmail)
         {
-            using(var mailMessage = new MailMessage())
+            using (var mailMessage = new MailMessage())
             {
                 mailMessage.From = new MailAddress(_emailUserName);
                 mailMessage.Subject = identityEmail.Subject;
@@ -28,7 +33,7 @@ namespace IgorMoura.IdentityDAL.Services
                     smtpClient.Credentials = new NetworkCredential(_emailUserName, _emailPassword);
 
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtpClient.Host = "smtp.gmail.com";
+                    smtpClient.Host = _emailHost;
                     smtpClient.Port = 587;
                     smtpClient.EnableSsl = true;
                     smtpClient.Timeout = 20000;
