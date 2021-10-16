@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
 
@@ -21,9 +23,22 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpGet]
         [Route("reminder/{reminderId}")]
-        public ReminderEntity GetReminderById(Guid? reminderId)
+        public IActionResult GetReminderById(Guid? reminderId)
         {
-            return _reminderHandler.GetReminderById(reminderId);
+            try
+            {
+                var reminder = _reminderHandler.GetReminderById(reminderId);
+
+                var result = new ApiResult<ReminderEntity>(HttpStatusCode.OK, reminder);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                var result = ExceptionHandler.HandleReminderErrors<ReminderEntity>(ex);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
         }
     }
 }

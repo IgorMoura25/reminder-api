@@ -1,6 +1,7 @@
 ﻿using IgorMoura.Util.Data;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.Reminder;
+using IgorMoura.Reminder.Extensions.Exceptions.Reminder;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {
@@ -15,7 +16,9 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
         public GetReminderByIdResponseModel GetById(GetReminderByIdRequestModel model)
         {
-            return _connector.ExecuteGetProcedure<GetReminderByIdResponseModel>("SP_RMD_GET_ReminderById", model);
+            var result = _connector.ExecuteGetProcedure<GetReminderByIdResponseModel>("SP_RMD_GET_ReminderById", model);
+
+            return result ?? throw new ReminderNotFoundException();
         }
     }
 }
