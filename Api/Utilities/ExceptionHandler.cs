@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Collections.Generic;
-using IgorMoura.Reminder.Extensions.Exceptions.Reminder;
+using IgorMoura.Reminder.Extensions.Exceptions;
 
 namespace IgorMoura.Reminder.Api.Utilities
 {
@@ -14,22 +14,34 @@ namespace IgorMoura.Reminder.Api.Utilities
         {
             if (ex is ReminderNotFoundException)
             {
-                return new ApiResult<T>(HttpStatusCode.NotFound, new List<ApiError>() { new ApiError { InternalMessage = GetExceptionMessage(ex.Message), Code = GetExceptionMessageCode(ex.Message) } });
+                var derivedException = (ReminderNotFoundException)ex;
+                return new ApiResult<T>(HttpStatusCode.NotFound, new List<ApiError>() { new ApiError { InternalMessage = derivedException.Message, Code = derivedException.Code } });
             }
 
             return new ApiResult<T>(HttpStatusCode.InternalServerError, new List<ApiError>() { new ApiError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
         }
 
-        private static string GetExceptionMessageCode(string message)
+        public static ApiResult<T> HandleUserErrors<T>(Exception ex)
         {
-            var splittedString = message.Split(':');
-            return splittedString[0].Trim();
-        }
+            if (ex is UserAlreadyExistException)
+            {
+                var derivedException = (UserAlreadyExistException)ex;
+                return new ApiResult<T>(HttpStatusCode.BadRequest, new List<ApiError>() { new ApiError { InternalMessage = derivedException.Message, Code = derivedException.Code } });
+            }
 
-        private static string GetExceptionMessage(string message)
-        {
-            var splittedString = message.Split(':');
-            return splittedString[1].TrimStart();
+            if (ex is InvalidIdentityOperationException)
+            {
+                var derivedException = (InvalidIdentityOperationException)ex;
+                var listErrors = derivedException.IdentityResultErrors?.ConvertAll(x => new ApiError()
+                {
+                    InternalMessage = x.Description,
+                    Code = x.Code
+                });
+
+                return new ApiResult<T>(HttpStatusCode.BadRequest, listErrors);
+            }
+
+            return new ApiResult<T>(HttpStatusCode.InternalServerError, new List<ApiError>() { new ApiError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
         }
     }
 }

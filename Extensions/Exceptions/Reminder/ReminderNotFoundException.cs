@@ -1,11 +1,13 @@
 ﻿using System;
 
-namespace IgorMoura.Reminder.Extensions.Exceptions.Reminder
+namespace IgorMoura.Reminder.Extensions.Exceptions
 {
     public class ReminderNotFoundException : Exception
     {
-        public ReminderNotFoundException() : base("REMINDER_NOT_FOUND: Reminder not found")
+        public ReminderNotFoundException() : base("Reminder not found")
         {
         }
+
+        public readonly string Code = "ReminderNotFound";
     }
 }

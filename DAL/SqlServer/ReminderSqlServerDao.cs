@@ -1,7 +1,7 @@
 ﻿using IgorMoura.Util.Data;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.Reminder;
-using IgorMoura.Reminder.Extensions.Exceptions.Reminder;
+using IgorMoura.Reminder.Extensions.Exceptions;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {

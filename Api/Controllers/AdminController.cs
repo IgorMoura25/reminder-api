@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Services.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
 
@@ -22,9 +25,22 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<string> AddUserAsync([FromBody] UserEntity user)
+        public async Task<IActionResult> AddUserAsync([FromBody] UserEntity user)
         {
-            return await _userHandler.AddUserAsync(user);
+            try
+            {
+                var userId = await _userHandler.AddUserAsync(user);
+
+                var result = new ApiResult<string>(HttpStatusCode.OK, userId);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                var result = ExceptionHandler.HandleUserErrors<string>(ex);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
         }
 
         [HttpPost]

@@ -16,7 +16,7 @@ namespace IgorMoura.Reminder.DAL.Extensions
         public static void RegisterDataAccesses(this IServiceCollection services)
         {
             services.AddSingleton<IReminderDao, ReminderSqlServerDao>();
-            services.AddTransient<IUserDao, UserSqlServerDao>();
+            services.AddTransient<IUserDao, UserIdentitySqlServerDao>();
         }
     }
 }
