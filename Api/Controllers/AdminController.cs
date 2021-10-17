@@ -31,7 +31,7 @@ namespace IgorMoura.Reminder.Api.Controllers
             {
                 var userId = await _userHandler.AddUserAsync(user);
 
-                var result = new ApiResult<string>(HttpStatusCode.OK, userId);
+                var result = new ApiResult<string>(HttpStatusCode.Created, userId);
 
                 return StatusCode((int)result.StatusCode, result);
             }
