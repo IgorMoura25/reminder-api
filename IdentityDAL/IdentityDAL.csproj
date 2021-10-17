@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.10" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.10" />
-    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.111" />
+    <PackageReference Include="Reminder-Util" Version="0.1.0-beta.113" />
   </ItemGroup>
 
 </Project>

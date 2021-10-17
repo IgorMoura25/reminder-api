@@ -32,12 +32,18 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task SetUserNameAsync(IdentityUser user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.UserName = userName;
+
+            return Task.CompletedTask;
         }
 
         public Task<string> GetNormalizedUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.NormalizedUserName);
         }
 
         public Task SetNormalizedUserNameAsync(IdentityUser user, string normalizedName, CancellationToken cancellationToken)
@@ -92,12 +98,46 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task<IdentityResult> DeleteAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var requestModel = new DeleteUserByIdRequestModel()
+            {
+                OperationUserId = Convert.ToInt64(user.Id)
+            };
+
+            var result = _connector.ExecuteDeleteProcedure("ISP_RMD_DEL_UserById", requestModel);
+
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var requestModel = new GetIdentityUserByIdRequestModel()
+            {
+                OperationUserId = Convert.ToInt64(userId)
+            };
+
+            var response = _connector.ExecuteGetProcedure<GetIdentityUserByIdResponseModel>("ISP_RMD_GET_IdentityUserById", requestModel);
+
+            IdentityUser identityUser = null;
+
+            if (response != null)
+            {
+                identityUser = new IdentityUser()
+                {
+                    Id = response.UserId.ToString(),
+                    UserName = response.UserName,
+                    Email = response.Email,
+                    NormalizedUserName = response.NormalizedUserName,
+                    NormalizedEmail = response.NormalizedEmail,
+                    PasswordHash = response.PasswordHash,
+                    EmailConfirmed = response.EmailConfirmed
+                };
+            }
+
+            return Task.FromResult(identityUser);
         }
 
         public Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -132,7 +172,11 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task SetEmailAsync(IdentityUser user, string email, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.Email = email;
+
+            return Task.CompletedTask;
         }
 
         public Task<string> GetEmailAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -184,7 +228,9 @@ namespace IgorMoura.IdentityDAL.Stores
 
         public Task<string> GetNormalizedEmailAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.NormalizedEmail);
         }
 
         public Task SetNormalizedEmailAsync(IdentityUser user, string normalizedEmail, CancellationToken cancellationToken)
