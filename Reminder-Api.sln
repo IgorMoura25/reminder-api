@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityDAL", "IdentityDAL\IdentityDAL.csproj", "{179DB88B-48B1-43D2-A8AA-39522763577C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTest", "ApiTest\ApiTest.csproj", "{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

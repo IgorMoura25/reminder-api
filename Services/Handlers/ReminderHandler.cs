@@ -1,5 +1,5 @@
-﻿using System;
-using IgorMoura.Reminder.DAL.Interfaces;
+﻿using IgorMoura.Reminder.DAL.Interfaces;
+using IgorMoura.Reminder.Models.DataObjects.Reminder;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
 
@@ -14,12 +14,9 @@ namespace IgorMoura.Reminder.Services.Handlers
             _reminderDao = reminderDao;
         }
 
-        public ReminderEntity GetReminderById(long reminderId)
+        public ReminderEntity GetReminderById(GetReminderByIdRequestModel model)
         {
-            var response = _reminderDao.GetById(new Models.DataObjects.Reminder.GetReminderByIdRequestModel()
-            {
-                ReminderId = reminderId
-            });
+            var response = _reminderDao.GetById(model);
 
             return new ReminderEntity()
             {
