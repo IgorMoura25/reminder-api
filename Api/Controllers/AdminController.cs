@@ -45,9 +45,22 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpPost]
         [Route("user/confirmation")]
-        public async Task<bool> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
+        public async Task<IActionResult> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
         {
-            return await _userHandler.ConfirmUserEmailAsync(user);
+            try
+            {
+                var isSuccess = await _userHandler.ConfirmUserEmailAsync(user);
+
+                var result = new ApiResult<bool>(HttpStatusCode.OK, isSuccess);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                var result = ExceptionHandler.HandleUserErrors<bool>(ex);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
         }
     }
 }

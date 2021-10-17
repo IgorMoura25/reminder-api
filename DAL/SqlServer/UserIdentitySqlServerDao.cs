@@ -69,7 +69,19 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
             var confirmationResult = await _userManager.ConfirmEmailAsync(identityUser, model.Token);
 
-            return true;
+            if (!confirmationResult.Succeeded)
+            {
+                throw new InvalidIdentityOperationException()
+                {
+                    IdentityResultErrors = confirmationResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
+                    {
+                        Code = x.Code,
+                        Description = x.Description
+                    })
+                };
+            }
+
+            return confirmationResult.Succeeded;
         }
 
         private async Task SendConfirmationEmailToUserAsync(IdentityUser identityUser)
