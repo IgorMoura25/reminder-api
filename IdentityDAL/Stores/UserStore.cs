@@ -61,7 +61,6 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var requestModel = new AddIdentityUserRequestModel()
             {
-                OperationUserId = Convert.ToInt64(user.Id),
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
@@ -72,6 +71,11 @@ namespace IgorMoura.IdentityDAL.Stores
             };
 
             var result = _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
+
+            if (result <= 0)
+            {
+                return Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "InternalErrorAddingUser", Description = "An error ocurred while adding the user" }));
+            }
 
             return Task.FromResult(IdentityResult.Success);
         }
@@ -93,6 +97,11 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var result = _connector.ExecuteUpdateProcedure("ISP_RMD_UPD_IdentityUserById", requestModel);
 
+            if (result <= 0)
+            {
+                return Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "InternalErrorUpdatingUser", Description = "An error ocurred while updating the user" }));
+            }
+
             return Task.FromResult(IdentityResult.Success);
         }
 
@@ -106,6 +115,11 @@ namespace IgorMoura.IdentityDAL.Stores
             };
 
             var result = _connector.ExecuteDeleteProcedure("ISP_RMD_DEL_UserById", requestModel);
+
+            if (result <= 0)
+            {
+                return Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "InternalErrorDeletingUser", Description = "An error ocurred while deleting the user" }));
+            }
 
             return Task.FromResult(IdentityResult.Success);
         }

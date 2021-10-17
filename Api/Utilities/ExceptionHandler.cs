@@ -29,6 +29,18 @@ namespace IgorMoura.Reminder.Api.Utilities
                 return new ApiResult<T>(HttpStatusCode.BadRequest, new List<ApiError>() { new ApiError { InternalMessage = derivedException.Message, Code = derivedException.Code } });
             }
 
+            if (ex is IdentityOperationException)
+            {
+                var derivedException = (IdentityOperationException)ex;
+                var listErrors = derivedException.IdentityResultErrors?.ConvertAll(x => new ApiError()
+                {
+                    InternalMessage = x.Description,
+                    Code = x.Code
+                });
+
+                return new ApiResult<T>(HttpStatusCode.InternalServerError, listErrors);
+            }
+
             if (ex is InvalidIdentityOperationException)
             {
                 var derivedException = (InvalidIdentityOperationException)ex;

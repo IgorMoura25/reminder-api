@@ -3,7 +3,6 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_ADD_IdentityUser]
 (
-	@OperationUserId BIGINT,
 	@UserName VARCHAR(50),
 	@NormalizedUserName VARCHAR(50),
 	@Email VARCHAR(100),
@@ -18,7 +17,6 @@ BEGIN
 	INSERT INTO
 		Users
 	(
-		UserId,
 		UserName,
 		NormalizedUserName,
 		Email,
@@ -30,7 +28,6 @@ BEGIN
 	)
 	VALUES
 	(
-		@OperationUserId,
 		@UserName,
 		@NormalizedUserName,
 		@Email,

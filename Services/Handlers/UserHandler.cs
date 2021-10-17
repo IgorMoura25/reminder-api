@@ -15,7 +15,7 @@ namespace IgorMoura.Reminder.Services.Handlers
             _userDao = userDao;
         }
 
-        public async Task<string> AddUserAsync(UserEntity user)
+        public async Task<long> AddUserAsync(UserEntity user)
         {
             var response = await _userDao.AddAsync(new AddUserRequestModel()
             {
