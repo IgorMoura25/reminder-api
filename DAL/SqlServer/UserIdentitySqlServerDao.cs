@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Linq;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.User;
@@ -22,10 +22,8 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             _identityEmailService = identityEmailService;
         }
 
-        public async Task<string> AddAsync(AddUserRequestModel model)
+        public async Task<long> AddAsync(AddUserRequestModel model)
         {
-            string userId = null;
-
             var identityUser = await _userManager.FindByEmailAsync(model.Email);
 
             if (identityUser != null)
@@ -41,6 +39,18 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
             if (!identityResult.Succeeded)
             {
+                if (identityResult.Errors.Any(x => x.Code.StartsWith("InternalError")))
+                {
+                    throw new IdentityOperationException()
+                    {
+                        IdentityResultErrors = identityResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
+                        {
+                            Code = x.Code,
+                            Description = x.Description
+                        })
+                    };
+                }
+
                 throw new InvalidIdentityOperationException()
                 {
                     IdentityResultErrors = identityResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
@@ -51,16 +61,11 @@ namespace IgorMoura.Reminder.DAL.SqlServer
                 };
             }
 
-            if (identityResult.Succeeded)
-            {
-                identityUser = await _userManager.FindByNameAsync(model.UserName);
+            identityUser = await _userManager.FindByNameAsync(model.UserName);
 
-                await SendConfirmationEmailToUserAsync(identityUser);
+            await SendConfirmationEmailToUserAsync(identityUser);
 
-                userId = identityUser.Id;
-            }
-
-            return userId;
+            return Convert.ToInt64(identityUser.Id);
         }
 
         public async Task<bool> ConfirmUserEmailAsync(ConfirmUserEmailRequestModel model)

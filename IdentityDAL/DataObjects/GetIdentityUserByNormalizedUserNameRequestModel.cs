@@ -2,7 +2,7 @@
 
 namespace IgorMoura.IdentityDAL.DataObjects
 {
-    public class GetIdentityUserByNormalizedUserNameRequestModel : DataRequestModel
+    public class GetIdentityUserByNormalizedUserNameRequestModel : GetDataRequestModel
     {
         public string NormalizedUserName { get; set; }
     }

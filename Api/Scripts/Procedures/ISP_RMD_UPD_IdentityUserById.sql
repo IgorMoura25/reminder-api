@@ -3,14 +3,14 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_UPD_IdentityUserById]
 (
-	@OperationUserId UNIQUEIDENTIFIER,
+	@OperationUserId BIGINT,
 	@UserName VARCHAR(50),
 	@NormalizedUserName VARCHAR(50),
 	@Email VARCHAR(100),
 	@NormalizedEmail VARCHAR(100),
 	@PasswordHash VARCHAR(MAX),
 	@EmailConfirmed BIT,
-	@UserId UNIQUEIDENTIFIER
+	@UserId BIGINT
 )
 AS
 BEGIN

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace IgorMoura.IdentityDAL.DataObjects
+﻿namespace IgorMoura.IdentityDAL.DataObjects
 {
-    public class GetIdentityUserByNormalizedUserNameResponseModel
+    public class GetIdentityUserByIdResponseModel
     {
         public long UserId { get; set; }
         public string UserName { get; set; }

@@ -3,8 +3,8 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[SP_RMD_GET_ReminderById]
 (
-	@ReminderId VARCHAR(68),
-	@UserId VARCHAR(68)
+	@ReminderId BIGINT,
+	@UserId BIGINT
 )
 AS
 BEGIN

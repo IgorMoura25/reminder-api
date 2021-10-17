@@ -1,9 +1,9 @@
-﻿USE Reminder_Dev
+﻿USE [Reminder_Dev]
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_GET_IdentityUserByNormalizedUserName]
+CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_GET_IdentityUserById]
 (
-	@NormalizedUserName VARCHAR(50),
+	@OperationUserId BIGINT,
 	@UserId BIGINT
 )
 AS
@@ -20,5 +20,5 @@ BEGIN
 	FROM
 		Users
 	WHERE
-		Users.NormalizedUserName = @NormalizedUserName
+		Users.UserId = @OperationUserId
 END

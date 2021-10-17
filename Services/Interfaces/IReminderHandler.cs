@@ -5,6 +5,6 @@ namespace IgorMoura.Reminder.Services.Interfaces
 {
     public interface IReminderHandler
     {
-        public ReminderEntity GetReminderById(Guid? reminderId);
+        public ReminderEntity GetReminderById(long reminderId);
     }
 }

@@ -3,7 +3,6 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_ADD_IdentityUser]
 (
-	@OperationUserId UNIQUEIDENTIFIER,
 	@UserName VARCHAR(50),
 	@NormalizedUserName VARCHAR(50),
 	@Email VARCHAR(100),
@@ -11,14 +10,13 @@ CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_ADD_IdentityUser]
 	@PasswordHash VARCHAR(MAX),
 	@IsActive BIT,
 	@CreatedAt DATETIME,
-	@UserId UNIQUEIDENTIFIER
+	@UserId BIGINT
 )
 AS
 BEGIN
 	INSERT INTO
 		Users
 	(
-		UserId,
 		UserName,
 		NormalizedUserName,
 		Email,
@@ -28,10 +26,8 @@ BEGIN
 		EmailConfirmed,
 		CreatedAt
 	)
-	OUTPUT Inserted.UserId
 	VALUES
 	(
-		@OperationUserId,
 		@UserName,
 		@NormalizedUserName,
 		@Email,
@@ -41,4 +37,6 @@ BEGIN
 		0,
 		@CreatedAt
 	)
+
+	SELECT CONVERT(BIGINT, SCOPE_IDENTITY())
 END

@@ -6,7 +6,7 @@ GO
 
 CREATE TABLE [dbo].[Users]
 (
-	[UserId] uniqueidentifier NOT NULL CONSTRAINT PK_Users PRIMARY KEY NONCLUSTERED,
+	[UserId] BIGINT NOT NULL IDENTITY(1,1) CONSTRAINT PK_Users PRIMARY KEY NONCLUSTERED,
 	[UserName] VARCHAR(50) NOT NULL,
 	[NormalizedUserName] VARCHAR(50) NOT NULL,
 	[Email] VARCHAR(100) NOT NULL,
@@ -21,17 +21,17 @@ GO
 CREATE TABLE [dbo].[ReminderStatus]
 (
 	[ReminderStatusId] SMALLINT NOT NULL CONSTRAINT PK_ReminderStatus PRIMARY KEY NONCLUSTERED,
-	[Name] VARCHAR(50) NOT NULL,
+	[Name] VARCHAR(50) NOT NULL
 )
 GO
 
 CREATE TABLE [dbo].[Reminders]
 (
-	[ReminderId] uniqueidentifier NOT NULL CONSTRAINT PK_Reminders PRIMARY KEY NONCLUSTERED,
+	[ReminderId] BIGINT NOT NULL IDENTITY(1,1) CONSTRAINT PK_Reminders PRIMARY KEY NONCLUSTERED,
 	[ReminderStatusId] SMALLINT NOT NULL CONSTRAINT FK_Reminders_ReminderStatus REFERENCES ReminderStatus(ReminderStatusId),
 	[Deadline] DATETIME NOT NULL,
 	[IsActive] BIT NOT NULL,
 	[CreatedAt] DATETIME NOT NULL,
-	[CreatedBy] uniqueidentifier NOT NULL CONSTRAINT FK_Reminders_Users REFERENCES Users(UserId),
+	[CreatedBy] BIGINT NOT NULL CONSTRAINT FK_Reminders_Users REFERENCES Users(UserId)
 )
 GO
