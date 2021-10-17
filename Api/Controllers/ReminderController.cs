@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
+using IgorMoura.Reminder.Models.DataObjects.Reminder;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {
@@ -27,7 +28,10 @@ namespace IgorMoura.Reminder.Api.Controllers
         {
             try
             {
-                var reminder = _reminderHandler.GetReminderById(reminderId);
+                var reminder = _reminderHandler.GetReminderById(new GetReminderByIdRequestModel()
+                {
+                    ReminderId = reminderId
+                });
 
                 var result = new ApiResult<ReminderEntity>(HttpStatusCode.OK, reminder);
 
