@@ -1,0 +1,58 @@
+image: docker:stable
+
+stages:
+- build
+- test
+- deploy
+
+build-project:
+    image: mcr.microsoft.com/dotnet/sdk:3.1
+    services:
+    - docker:dind
+
+    stage: build
+    only:
+    - /^feature-.*$/
+    - /^bugfix-.*$/
+
+    script:
+        - dotnet build
+
+deploy-docker-images:
+    services:
+    - docker:dind
+    before_script:
+        - docker info
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
+    stage: build
+    only:
+    - develop
+
+    script:
+        - docker build -t reminder-api-scripts ./Api
+        - docker tag reminder-api-scripts igormoura2501/reminder-api-scripts:latest
+        - docker push igormoura2501/reminder-api-scripts:latest
+
+
+test-project:
+    image: mcr.microsoft.com/dotnet/sdk:3.1
+    services:
+    - docker:dind
+    - name: igormoura2501/reminder-api-scripts:latest
+      alias: localhost_mssql
+    variables:
+        FF_NETWORK_PER_BUILD: 1
+        ACCEPT_EULA: $ACCEPT_EULA
+        SA_PASSWORD: $LOCAL_SQL_SERVER_PASSWORD
+        MSSQL_PID: $MSSQL_PID
+
+    stage: test
+    only:
+    - develop
+
+    dependencies:
+    - deploy-docker-images
+
+    script:   
+        - dotnet test
