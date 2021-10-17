@@ -23,7 +23,7 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpGet]
         [Route("reminder/{reminderId}")]
-        public IActionResult GetReminderById(Guid? reminderId)
+        public IActionResult GetReminderById(long reminderId)
         {
             try
             {

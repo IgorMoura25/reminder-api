@@ -4,7 +4,7 @@ namespace IgorMoura.IdentityDAL.DataObjects
 {
     public class GetIdentityUserByNormalizedUserNameResponseModel
     {
-        public Guid? UserId { get; set; }
+        public long UserId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public string NormalizedUserName { get; set; }

@@ -3,7 +3,8 @@ GO
 
 CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_GET_IdentityUserByNormalizedUserName]
 (
-	@NormalizedUserName VARCHAR(50)
+	@NormalizedUserName VARCHAR(50),
+	@UserId BIGINT
 )
 AS
 BEGIN

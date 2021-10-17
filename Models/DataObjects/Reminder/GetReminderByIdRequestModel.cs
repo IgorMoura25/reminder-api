@@ -5,6 +5,6 @@ namespace IgorMoura.Reminder.Models.DataObjects.Reminder
 {
     public class GetReminderByIdRequestModel : GetDataRequestModel
     {
-        public Guid? ReminderId { get; set; }
+        public long ReminderId { get; set; }
     }
 }

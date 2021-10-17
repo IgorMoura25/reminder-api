@@ -4,7 +4,7 @@ GO
 CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_GET_IdentityUserByNormalizedEmail]
 (
 	@NormalizedEmail VARCHAR(100),
-	@UserId VARCHAR(68)
+	@UserId BIGINT
 )
 AS
 BEGIN

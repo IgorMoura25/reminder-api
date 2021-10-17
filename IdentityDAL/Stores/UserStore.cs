@@ -55,7 +55,7 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var requestModel = new AddIdentityUserRequestModel()
             {
-                OperationUserId = new Guid(user.Id),
+                OperationUserId = Convert.ToInt64(user.Id),
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
@@ -65,7 +65,7 @@ namespace IgorMoura.IdentityDAL.Stores
                 CreatedAt = DateTime.Now
             };
 
-            var result = _connector.ExecuteAddProcedure<Guid?>("ISP_RMD_ADD_IdentityUser", requestModel);
+            var result = _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
 
             return Task.FromResult(IdentityResult.Success);
         }
@@ -76,7 +76,7 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var requestModel = new UpdateIdentityUserByIdRequestModel()
             {
-                OperationUserId = new Guid(user.Id),
+                OperationUserId = Convert.ToInt64(user.Id),
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
