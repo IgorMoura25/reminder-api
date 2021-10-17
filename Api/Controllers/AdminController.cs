@@ -1,20 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Services.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {
-    //TODO: Retornar um json padrão com status, data, mensagem de erro
-    //TODO: Implementar testes de unidade para todas as funcionalidades antes de escalar
-    //TODO: Implementar .envs na API e na UTIL antes de escalar
-    //TODO: Implementar CI/CD completo
-    //TODO: Quebrar AdminController em partials para User, etc...
-    //TODO: Retornar erros corretos NoContent, BadRequest, Unauthorized, ServerError, etc
-
     [ApiController]
     [Route("admin")]
-    public class AdminController : ControllerBase
+    public partial class AdminController : ControllerBase
     {
         #region Handlers
         private IUserHandler _userHandler { get; }
@@ -29,16 +25,42 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<string> AddUserAsync([FromBody] UserEntity user)
+        public async Task<IActionResult> AddUserAsync([FromBody] UserEntity user)
         {
-            return await _userHandler.AddUserAsync(user);
+            try
+            {
+                var userId = await _userHandler.AddUserAsync(user);
+
+                var result = new ApiResult<string>(HttpStatusCode.Created, userId);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                var result = ExceptionHandler.HandleUserErrors<string>(ex);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
         }
 
         [HttpPost]
         [Route("user/confirmation")]
-        public async Task<bool> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
+        public async Task<IActionResult> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
         {
-            return await _userHandler.ConfirmUserEmailAsync(user);
+            try
+            {
+                var isSuccess = await _userHandler.ConfirmUserEmailAsync(user);
+
+                var result = new ApiResult<bool>(HttpStatusCode.OK, isSuccess);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
+            catch (Exception ex)
+            {
+                var result = ExceptionHandler.HandleUserErrors<bool>(ex);
+
+                return StatusCode((int)result.StatusCode, result);
+            }
         }
     }
 }

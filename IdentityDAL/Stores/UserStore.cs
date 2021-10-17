@@ -7,7 +7,6 @@ using System.Threading;
 
 namespace IgorMoura.IdentityDAL.Stores
 {
-    //TODO: Aplicar Liskov Principle -> Implementar toda a interface sem exceções
     public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPasswordStore<IdentityUser>
     {
         private IDbConnector _connector { get; }
@@ -56,20 +55,19 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var requestModel = new AddIdentityUserRequestModel()
             {
-                OperationUserId = user.Id,
+                OperationUserId = new Guid(user.Id),
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
                 NormalizedEmail = user.NormalizedEmail,
-                PasswordHash = user.PasswordHash
+                PasswordHash = user.PasswordHash,
+                IsActive = true,
+                CreatedAt = DateTime.Now
             };
 
-            var result = _connector.ExecuteAddProcedure<string>("ISP_RMD_ADD_IdentityUser", requestModel);
-
-            //TODO: Tratar erro corretamente
+            var result = _connector.ExecuteAddProcedure<Guid?>("ISP_RMD_ADD_IdentityUser", requestModel);
 
             return Task.FromResult(IdentityResult.Success);
-
         }
 
         public Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -78,7 +76,7 @@ namespace IgorMoura.IdentityDAL.Stores
 
             var requestModel = new UpdateIdentityUserByIdRequestModel()
             {
-                OperationUserId = user.Id,
+                OperationUserId = new Guid(user.Id),
                 UserName = user.UserName,
                 NormalizedUserName = user.NormalizedUserName,
                 Email = user.Email,
@@ -88,8 +86,6 @@ namespace IgorMoura.IdentityDAL.Stores
             };
 
             var result = _connector.ExecuteUpdateProcedure("ISP_RMD_UPD_IdentityUserById", requestModel);
-
-            //TODO: Tratar erro corretamente
 
             return Task.FromResult(IdentityResult.Success);
         }
@@ -121,7 +117,7 @@ namespace IgorMoura.IdentityDAL.Stores
             {
                 identityUser = new IdentityUser()
                 {
-                    Id = response.UserId,
+                    Id = response.UserId.ToString(),
                     UserName = response.UserName,
                     Email = response.Email,
                     NormalizedUserName = response.NormalizedUserName,
@@ -179,7 +175,7 @@ namespace IgorMoura.IdentityDAL.Stores
             {
                 identityUser = new IdentityUser()
                 {
-                    Id = response.UserId
+                    Id = response.UserId.ToString()
                 };
             }
 

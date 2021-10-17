@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IgorMoura.Util.Models;
+﻿using IgorMoura.Util.Models;
 
 namespace IgorMoura.Reminder.Models.DataObjects.User
 {

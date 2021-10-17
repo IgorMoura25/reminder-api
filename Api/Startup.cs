@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using IgorMoura.Reminder.DAL.Extensions;
 using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.IdentityDAL.Extensions;
+using IgorMoura.Reminder.Api.Configuration;
 
 namespace IgorMoura.Reminder.Api
 {
@@ -25,13 +26,17 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var teste = DotNetEnv.Env.Load();
+
+            IApiConfiguration apiConfiguration = new ApiConfiguration(Configuration);
+            services.AddSingleton(apiConfiguration);
+
             // DI Registration
-            services.RegisterConnectors();
-            services.RegisterIdentity();
+            services.RegisterConnectors(apiConfiguration.ConnectionString);
+            services.RegisterIdentity(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
             services.RegisterDataAccesses();
             services.RegisterHandlers();
 
-            //TODO: Usar o AddIdentity quando for adicionar roles, ou tentar fazer com esse mesmo
             services.AddIdentityCore<IdentityUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -58,7 +63,7 @@ namespace IgorMoura.Reminder.Api
                 options.DefaultChallengeScheme = "JwtBearer";
             }).AddJwtBearer("JwtBearer", options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
