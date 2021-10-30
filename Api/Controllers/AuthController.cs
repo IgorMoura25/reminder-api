@@ -53,7 +53,7 @@ namespace IgorMoura.Reminder.Api.Controllers
             }
             catch (Exception ex)
             {
-                var result = ExceptionHandler.HandleAuthorizationErrors<string>(ex);
+                var result = ErrorHandler.HandleAuthorizationErrors<string>(ex);
 
                 return StatusCode((int)result.StatusCode, result);
             }

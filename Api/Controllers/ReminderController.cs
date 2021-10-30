@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Models.Entities;
@@ -26,23 +25,31 @@ namespace IgorMoura.Reminder.Api.Controllers
         [Route("reminder/{reminderId}")]
         public IActionResult GetReminderById(long reminderId)
         {
-            try
+            var reminder = _reminderHandler.GetReminderById(new GetReminderByIdRequestModel()
             {
-                var reminder = _reminderHandler.GetReminderById(new GetReminderByIdRequestModel()
-                {
-                    ReminderId = reminderId
-                });
+                ReminderId = reminderId
+            });
 
-                var result = new ApiResult<ReminderEntity>(HttpStatusCode.OK, reminder);
-
-                return StatusCode((int)result.StatusCode, result);
-            }
-            catch (Exception ex)
+            if (!reminder.Succeeded)
             {
-                var result = ExceptionHandler.HandleReminderErrors<ReminderEntity>(ex);
+                var errors = ErrorHandler.HandleReminderErrors<ReminderEntity>(reminder.Result);
 
-                return StatusCode((int)result.StatusCode, result);
+                return StatusCode((int)errors.StatusCode, errors);
             }
+
+            var data = new ReminderEntity()
+            {
+                ReminderId = reminder.Data.ReminderId,
+                ReminderStatusId = reminder.Data.ReminderStatusId,
+                Deadline = reminder.Data.Deadline,
+                IsActive = reminder.Data.IsActive,
+                CreatedAt = reminder.Data.CreatedAt,
+                CreatedBy = reminder.Data.CreatedBy
+            };
+
+            var result = new ApiResult<ReminderEntity>(HttpStatusCode.OK, data);
+
+            return StatusCode((int)result.StatusCode, result);
         }
     }
 }

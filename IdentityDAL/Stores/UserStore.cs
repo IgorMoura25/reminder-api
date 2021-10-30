@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Util.Data;
 using IgorMoura.IdentityDAL.DataObjects;
-using System.Threading;
 
 namespace IgorMoura.IdentityDAL.Stores
 {

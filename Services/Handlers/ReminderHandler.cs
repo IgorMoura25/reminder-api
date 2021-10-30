@@ -1,4 +1,5 @@
 ﻿using IgorMoura.Reminder.DAL.Interfaces;
+using IgorMoura.Reminder.Extensions.ResultCode.Reminder;
 using IgorMoura.Reminder.Models.DataObjects.Reminder;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
@@ -14,11 +15,16 @@ namespace IgorMoura.Reminder.Services.Handlers
             _reminderDao = reminderDao;
         }
 
-        public ReminderEntity GetReminderById(GetReminderByIdRequestModel model)
+        public ServiceResult<ReminderEntity> GetReminderById(GetReminderByIdRequestModel model)
         {
             var response = _reminderDao.GetById(model);
 
-            return new ReminderEntity()
+            if (response == null)
+            {
+                return ServiceResultBuilder<ReminderEntity>.Error(new ReminderResultCode().ReminderNotFound);
+            }
+
+            var result = new ReminderEntity()
             {
                 ReminderId = response.ReminderId,
                 ReminderStatusId = response.ReminderStatusId,
@@ -27,6 +33,8 @@ namespace IgorMoura.Reminder.Services.Handlers
                 CreatedAt = response.CreatedAt,
                 CreatedBy = response.CreatedBy
             };
+
+            return ServiceResultBuilder<ReminderEntity>.Success(result);
         }
     }
 }

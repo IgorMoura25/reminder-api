@@ -1,6 +1,6 @@
-﻿namespace IgorMoura.IdentityDAL.Entities
+﻿namespace IgorMoura.Reminder.Models.Entities
 {
-    public class IdentityEmailEntity
+    public class EmailEntity
     {
         public string Subject { get; set; }
         public string Destination { get; set; }

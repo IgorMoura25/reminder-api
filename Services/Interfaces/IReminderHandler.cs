@@ -5,6 +5,6 @@ namespace IgorMoura.Reminder.Services.Interfaces
 {
     public interface IReminderHandler
     {
-        public ReminderEntity GetReminderById(GetReminderByIdRequestModel model);
+        public ServiceResult<ReminderEntity> GetReminderById(GetReminderByIdRequestModel model);
     }
 }

@@ -5,7 +5,8 @@ namespace IgorMoura.Reminder.Services.Interfaces
 {
     public interface IUserHandler
     {
-        public Task<long> AddUserAsync(UserEntity user);
-        public Task<bool> ConfirmUserEmailAsync(EmailConfirmationEntity model);
+        public Task<ServiceResult<UserEntity>> FindUserByEmailAsync(string email);
+        public Task<ServiceResult<long>> AddUserAsync(UserEntity user);
+        public Task<ServiceResult<bool>> ConfirmUserEmailAsync(EmailConfirmationEntity model);
     }
 }

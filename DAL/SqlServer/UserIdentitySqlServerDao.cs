@@ -1,36 +1,63 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.DAL.Interfaces;
 using IgorMoura.Reminder.Models.DataObjects.User;
-using IgorMoura.IdentityDAL.Services;
-using IgorMoura.IdentityDAL.Entities;
-using IgorMoura.Reminder.Extensions.Exceptions;
-
+using IgorMoura.Reminder.Models.Entities;
+using IgorMoura.Reminder.Extensions.ResultCode.User;
 
 namespace IgorMoura.Reminder.DAL.SqlServer
 {
     public class UserIdentitySqlServerDao : IUserDao
     {
         private UserManager<IdentityUser> _userManager { get; set; }
-        private IdentityEmailService _identityEmailService { get; set; }
 
-        public UserIdentitySqlServerDao(UserManager<IdentityUser> userManager, IdentityEmailService identityEmailService)
+        public UserIdentitySqlServerDao(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _identityEmailService = identityEmailService;
         }
 
-        public async Task<long> AddAsync(AddUserRequestModel model)
+        public async Task<DataResult<UserEntity>> GetByEmailAsync(string email)
         {
-            var identityUser = await _userManager.FindByEmailAsync(model.Email);
+            var identityUser = await _userManager.FindByEmailAsync(email);
 
-            if (identityUser != null)
+            if (identityUser == null)
             {
-                throw new UserAlreadyExistException();
+                return DataResultBuilder<UserEntity>.Error(new UserResultCode().UserNotFound);
             }
 
+            var user = new UserEntity()
+            {
+                UserId = Convert.ToInt64(identityUser.Id),
+                UserName = identityUser.UserName,
+                Email = identityUser.Email
+            };
+
+            return DataResultBuilder<UserEntity>.Success(user);
+        }
+
+        public async Task<DataResult<UserEntity>> GetByNameAsync(string username)
+        {
+            var identityUser = await _userManager.FindByNameAsync(username);
+
+            if (identityUser == null)
+            {
+                return DataResultBuilder<UserEntity>.Error(new UserResultCode().UserNotFound);
+            }
+
+            var user = new UserEntity()
+            {
+                UserId = Convert.ToInt64(identityUser.Id),
+                UserName = identityUser.UserName,
+                Email = identityUser.Email
+            };
+
+            return DataResultBuilder<UserEntity>.Success(user);
+        }
+
+        public async Task<DataResult<long>> AddAsync(AddUserRequestModel model)
+        {
             var identityResult = await _userManager.CreateAsync(new IdentityUser()
             {
                 UserName = model.UserName,
@@ -39,66 +66,46 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
             if (!identityResult.Succeeded)
             {
-                if (identityResult.Errors.Any(x => x.Code.StartsWith("InternalError")))
+                return DataResultBuilder<long>.Errors(new UserResultCode().AddOperationError, identityResult.Errors?.ToList().ConvertAll(x => new DataResultError()
                 {
-                    throw new IdentityOperationException()
-                    {
-                        IdentityResultErrors = identityResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
-                        {
-                            Code = x.Code,
-                            Description = x.Description
-                        })
-                    };
-                }
-
-                throw new InvalidIdentityOperationException()
-                {
-                    IdentityResultErrors = identityResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
-                    {
-                        Code = x.Code,
-                        Description = x.Description
-                    })
-                };
+                    Code = x.Code,
+                    Description = x.Description
+                }));
             }
 
-            identityUser = await _userManager.FindByNameAsync(model.UserName);
+            var identityUser = await _userManager.FindByNameAsync(model.UserName);
 
-            await SendConfirmationEmailToUserAsync(identityUser);
-
-            return Convert.ToInt64(identityUser.Id);
+            return DataResultBuilder<long>.Success(Convert.ToInt64(identityUser.Id));
         }
 
-        public async Task<bool> ConfirmUserEmailAsync(ConfirmUserEmailRequestModel model)
+        public async Task<DataResult<bool>> ConfirmUserEmailAsync(ConfirmUserEmailRequestModel model)
         {
             var identityUser = await _userManager.FindByNameAsync(model.UserName);
 
-            var confirmationResult = await _userManager.ConfirmEmailAsync(identityUser, model.Token);
-
-            if (!confirmationResult.Succeeded)
+            if (identityUser == null)
             {
-                throw new InvalidIdentityOperationException()
-                {
-                    IdentityResultErrors = confirmationResult.Errors.ToList().ConvertAll(x => new IdentityResultError()
-                    {
-                        Code = x.Code,
-                        Description = x.Description
-                    })
-                };
+                return DataResultBuilder<bool>.Error(new UserResultCode().UserNotFound);
             }
 
-            return confirmationResult.Succeeded;
+            var identityResult = await _userManager.ConfirmEmailAsync(identityUser, model.Token);
+
+            if (!identityResult.Succeeded)
+            {
+                return DataResultBuilder<bool>.Errors(new UserResultCode().ConfirmEmailOperationError, identityResult.Errors?.ToList().ConvertAll(x => new DataResultError()
+                {
+                    Code = x.Code,
+                    Description = x.Description
+                }));
+            }
+
+            return DataResultBuilder<bool>.Success(true);
         }
 
-        private async Task SendConfirmationEmailToUserAsync(IdentityUser identityUser)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(UserEntity user)
         {
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+            var identityUser = await _userManager.FindByNameAsync(user.UserName);
 
-            await _identityEmailService.SendEmailAsync(new IdentityEmailEntity
-            {
-                Subject = "Reminder - Email confirmation",
-                Destination = identityUser.Email,
-                Body = $"Welcome to Reminder! Please use the token below to confirm your email in our API. \n\n\n {token}"
-            });
+            return await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
         }
     }
 }

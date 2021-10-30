@@ -1,24 +1,25 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using IgorMoura.IdentityDAL.Entities;
+using IgorMoura.Reminder.Models.Entities;
+using IgorMoura.Reminder.Services.Interfaces;
 
-namespace IgorMoura.IdentityDAL.Services
+namespace IgorMoura.Reminder.Services.Handlers
 {
-    public class IdentityEmailService
+    public class EmailHandler : IEmailHandler
     {
         private string _emailUserName { get; set; }
         private string _emailPassword { get; set; }
         private string _emailHost { get; set; }
 
-        public IdentityEmailService(string emailHost, string emailUserName, string emailPassword)
+        public EmailHandler(string emailHost, string emailUserName, string emailPassword)
         {
             _emailHost = emailHost;
             _emailUserName = emailUserName;
             _emailPassword = emailPassword;
         }
 
-        public async Task SendEmailAsync(IdentityEmailEntity identityEmail)
+        public async Task SendEmailAsync(EmailEntity identityEmail)
         {
             using (var mailMessage = new MailMessage())
             {

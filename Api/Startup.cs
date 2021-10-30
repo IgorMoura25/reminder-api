@@ -33,9 +33,9 @@ namespace IgorMoura.Reminder.Api
 
             // DI Registration
             services.RegisterConnectors(apiConfiguration.ConnectionString);
-            services.RegisterIdentity(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
+            services.RegisterIdentity();
             services.RegisterDataAccesses();
-            services.RegisterHandlers();
+            services.RegisterHandlers(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
 
             services.AddIdentityCore<IdentityUser>(options =>
             {

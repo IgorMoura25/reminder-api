@@ -1,10 +1,10 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Services.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
+using IgorMoura.Reminder.Models.DataObjects.User;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {
@@ -25,42 +25,43 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> AddUserAsync([FromBody] UserEntity user)
+        public async Task<IActionResult> AddUserAsync([FromBody] AddUserApiRequestModel user)
         {
-            try
+            var response = await _userHandler.AddUserAsync(new UserEntity()
             {
-                var userId = await _userHandler.AddUserAsync(user);
+                Email = user.Email,
+                UserName = user.UserName,
+                Password = user.Password
+            });
 
-                var result = new ApiResult<long>(HttpStatusCode.Created, userId);
-
-                return StatusCode((int)result.StatusCode, result);
-            }
-            catch (Exception ex)
+            if (!response.Succeeded)
             {
-                var result = ExceptionHandler.HandleUserErrors<long>(ex);
+                var errors = ErrorHandler.HandleUserErrors<long>(response.Result);
 
-                return StatusCode((int)result.StatusCode, result);
+                return StatusCode((int)errors.StatusCode, errors);
             }
+
+            var result = new ApiResult<long>(HttpStatusCode.Created, response.Data);
+
+            return StatusCode((int)result.StatusCode, result);
         }
 
         [HttpPost]
         [Route("user/confirmation")]
         public async Task<IActionResult> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
         {
-            try
+            var response = await _userHandler.ConfirmUserEmailAsync(user);
+
+            if (!response.Succeeded)
             {
-                var isSuccess = await _userHandler.ConfirmUserEmailAsync(user);
+                var errors = ErrorHandler.HandleUserErrors<long>(response.Result);
 
-                var result = new ApiResult<bool>(HttpStatusCode.OK, isSuccess);
-
-                return StatusCode((int)result.StatusCode, result);
+                return StatusCode((int)errors.StatusCode, errors);
             }
-            catch (Exception ex)
-            {
-                var result = ExceptionHandler.HandleUserErrors<bool>(ex);
 
-                return StatusCode((int)result.StatusCode, result);
-            }
+            var result = new ApiResult<bool>(HttpStatusCode.OK, response.Data);
+
+            return StatusCode((int)result.StatusCode, result);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace IgorMoura.Reminder.Extensions.Exceptions
+﻿namespace IgorMoura.Reminder.Extensions.ResultCode
 {
-    public class IdentityResultError
+    public class ResultError
     {
         public string Code { get; set; }
         public string Description { get; set; }
