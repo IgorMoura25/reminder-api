@@ -5,13 +5,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Models.DataObjects.Auth;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
-using IgorMoura.Reminder.Api.Configuration;
+using IgorMoura.Reminder.Auth.Configuration;
+using IgorMoura.Reminder.Auth.Utilities;
 
-namespace IgorMoura.Reminder.Api.Controllers
+namespace IgorMoura.Reminder.Auth.Controllers
 {
     [ApiController]
     [Route("auth")]
@@ -19,14 +19,14 @@ namespace IgorMoura.Reminder.Api.Controllers
     {
         #region Handlers
         private IAuthHandler _authHandler { get; }
-        private IApiConfiguration _apiConfiguration { get; }
+        private IAuthConfiguration _authConfiguration { get; }
         #endregion
 
         #region Constructors
-        public AuthController(IAuthHandler authHandler, IApiConfiguration apiConfiguration)
+        public AuthController(IAuthHandler authHandler, IAuthConfiguration authConfiguration)
         {
             _authHandler = authHandler;
-            _apiConfiguration = apiConfiguration;
+            _authConfiguration = authConfiguration;
         }
         #endregion
 
@@ -49,7 +49,7 @@ namespace IgorMoura.Reminder.Api.Controllers
 
             var token = GenerateToken(model);
 
-            var result = new ApiResult<string>(HttpStatusCode.OK, token);
+            var result = new AuthResult<string>(HttpStatusCode.OK, token);
 
             return StatusCode((int)result.StatusCode, result);
         }
@@ -64,11 +64,11 @@ namespace IgorMoura.Reminder.Api.Controllers
 
 
             var credentials = new SigningCredentials(
-                new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_apiConfiguration.SecretKey)),
+                new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_authConfiguration.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "Reminder.Api",
+                issuer: "Reminder.Auth",
                 claims: claims,
                 signingCredentials: credentials,
                 expires: DateTime.Now.AddMinutes(30)

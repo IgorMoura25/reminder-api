@@ -1,16 +1,18 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using IgorMoura.Reminder.DAL.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using IgorMoura.Reminder.Auth.Configuration;
 using IgorMoura.Reminder.Services.Extensions;
+using IgorMoura.Reminder.DAL.Extensions;
 using IgorMoura.IdentityDAL.Extensions;
-using IgorMoura.Reminder.Api.Configuration;
 
-namespace IgorMoura.Reminder.Api
+namespace Auth
 {
     public class Startup
     {
@@ -25,15 +27,14 @@ namespace IgorMoura.Reminder.Api
         public void ConfigureServices(IServiceCollection services)
         {
             DotNetEnv.Env.Load();
-
-            IApiConfiguration apiConfiguration = new ApiConfiguration(Configuration);
-            services.AddSingleton(apiConfiguration);
+            IAuthConfiguration authConfiguration = new AuthConfiguration(Configuration);
+            services.AddSingleton(authConfiguration);
 
             // DI Registration
-            services.RegisterConnectors(apiConfiguration.ConnectionString);
+            services.RegisterConnectors(authConfiguration.ConnectionString);
             services.RegisterIdentity();
             services.RegisterDataAccesses();
-            services.RegisterHandlers(apiConfiguration.EmailHost, apiConfiguration.EmailUserName, apiConfiguration.EmailPassword);
+            services.RegisterHandlers(authConfiguration.EmailHost, authConfiguration.EmailUserName, authConfiguration.EmailPassword);
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
@@ -54,10 +55,29 @@ namespace IgorMoura.Reminder.Api
 
             services.AddControllers();
 
+            // JWT
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            }).AddJwtBearer("JwtBearer", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(authConfiguration.SecretKey)),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "Reminder.Auth"
+                };
+            });
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reminder API", Version = Version.ProductVersion });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reminder Auth", Version = "v1" });
             });
         }
 
@@ -78,13 +98,12 @@ namespace IgorMoura.Reminder.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"Reminder API {Version.ProductVersion}");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"Reminder Auth v1");
                 c.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

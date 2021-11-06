@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityDAL", "IdentityDAL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{DF8AC5D8-7ACF-4D43-8C73-BAFD373D8D70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTest", "ApiTest\ApiTest.csproj", "{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTest", "ApiTest\ApiTest.csproj", "{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Auth\Auth.csproj", "{5A97FCC0-ED1D-4DFC-AE57-7BD3734F3976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7C9E335-365C-4F45-B1A1-BDA23CCA2840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A97FCC0-ED1D-4DFC-AE57-7BD3734F3976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A97FCC0-ED1D-4DFC-AE57-7BD3734F3976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A97FCC0-ED1D-4DFC-AE57-7BD3734F3976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A97FCC0-ED1D-4DFC-AE57-7BD3734F3976}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
