@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using IgorMoura.Reminder.Api.Utilities;
+using IgorMoura.Reminder.Models.DataObjects.Auth;
+using IgorMoura.Reminder.Models.Entities;
+using IgorMoura.Reminder.Services.Interfaces;
+using IgorMoura.Reminder.Api.Configuration;
 
 namespace IgorMoura.Reminder.Api.Controllers
 {
@@ -13,50 +18,63 @@ namespace IgorMoura.Reminder.Api.Controllers
     public class AuthController : ControllerBase
     {
         #region Handlers
+        private IAuthHandler _authHandler { get; }
+        private IApiConfiguration _apiConfiguration { get; }
         #endregion
 
         #region Constructors
+        public AuthController(IAuthHandler authHandler, IApiConfiguration apiConfiguration)
+        {
+            _authHandler = authHandler;
+            _apiConfiguration = apiConfiguration;
+        }
         #endregion
 
         [HttpPost]
-        public IActionResult Authorize()
+        [Route("")]
+        public async Task<IActionResult> AuthorizeAsync([FromBody] AuthorizeApiRequestModel model)
         {
-            //TODO Usar o Identity para autenticação, para saber se pode criar o token ou não
-
-            try
+            var response = await _authHandler.SignInAsync(new SignInEntity()
             {
-                var claims = new[]
+                UserName = model.UserName,
+                Password = model.Password
+            });
+
+            if (!response.Succeeded)
+            {
+                var errors = ErrorHandler.HandleAuthorizationErrors<string>(response.Result);
+
+                return StatusCode((int)errors.StatusCode, errors);
+            }
+
+            var token = GenerateToken(model);
+
+            var result = new ApiResult<string>(HttpStatusCode.OK, token);
+
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        private string GenerateToken(AuthorizeApiRequestModel model)
+        {
+            var claims = new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, "userName"),
+                    new Claim(JwtRegisteredClaimNames.Sub, model.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
-                var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("token-maior-que-256-bits-guid"));
 
-                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_apiConfiguration.SecretKey)),
+                SecurityAlgorithms.HmacSha256);
 
-                var token = new JwtSecurityToken(
-                    issuer: "Reminder.Api",
-                    audience: "Postman",
-                    claims: claims,
-                    signingCredentials: credentials,
-                    expires: DateTime.Now.AddMinutes(30)
-                );
+            var token = new JwtSecurityToken(
+                issuer: "Reminder.Api",
+                claims: claims,
+                signingCredentials: credentials,
+                expires: DateTime.Now.AddMinutes(30)
+            );
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-                var result = new ApiResult<string>(HttpStatusCode.OK, tokenString);
-
-                return StatusCode((int)result.StatusCode, result);
-
-
-            }
-            catch (Exception ex)
-            {
-                var result = ErrorHandler.HandleAuthorizationErrors<string>(ex);
-
-                return StatusCode((int)result.StatusCode, result);
-            }
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

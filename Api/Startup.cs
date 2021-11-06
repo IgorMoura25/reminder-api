@@ -26,7 +26,7 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var teste = DotNetEnv.Env.Load();
+            DotNetEnv.Env.Load();
 
             IApiConfiguration apiConfiguration = new ApiConfiguration(Configuration);
             services.AddSingleton(apiConfiguration);
@@ -35,7 +35,7 @@ namespace IgorMoura.Reminder.Api
             services.RegisterConnectors(apiConfiguration.ConnectionString);
             services.RegisterIdentity();
             services.RegisterDataAccesses();
-            services.RegisterHandlers(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
+            services.RegisterHandlers(apiConfiguration.EmailHost, apiConfiguration.EmailUserName, apiConfiguration.EmailPassword);
 
             services.AddIdentityCore<IdentityUser>(options =>
             {
@@ -69,7 +69,7 @@ namespace IgorMoura.Reminder.Api
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("token-maior-que-256-bits-guid")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(apiConfiguration.SecretKey)),
                     ClockSkew = TimeSpan.FromMinutes(5),
                     ValidIssuer = "Reminder.Api",
                     ValidAudience = "Postman"

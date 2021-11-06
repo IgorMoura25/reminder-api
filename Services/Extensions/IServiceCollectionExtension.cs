@@ -11,6 +11,7 @@ namespace IgorMoura.Reminder.Services.Extensions
         {
             services.AddSingleton<IReminderHandler, ReminderHandler>();
             services.AddTransient<IUserHandler, UserHandler>();
+            services.AddTransient<IAuthHandler, AuthHandler>();
 
             if (emailHost != null && emailUserName != null && emailPassword != null)
             {
