@@ -9,6 +9,7 @@ namespace IgorMoura.IdentityDAL.Extensions
         public static void RegisterIdentity(this IServiceCollection services)
         {
             services.AddSingleton<IUserStore<IdentityUser>, UserStore>();
+            services.AddSingleton<IRoleStore<IdentityRole>, RoleStore>();
             services.AddTransient<UserManager<IdentityUser>, UserManager<IdentityUser>>();
         }
     }

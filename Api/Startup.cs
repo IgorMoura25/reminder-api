@@ -37,7 +37,7 @@ namespace IgorMoura.Reminder.Api
             services.RegisterDataAccesses();
             services.RegisterHandlers(apiConfiguration.EmailHost, apiConfiguration.EmailUserName, apiConfiguration.EmailPassword);
 
-            services.AddIdentityCore<IdentityUser>(options =>
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
 
