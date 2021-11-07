@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,25 +32,24 @@ namespace IgorMoura.Reminder.Api
 
             // DI Registration
             services.RegisterConnectors(apiConfiguration.ConnectionString);
-            services.RegisterIdentity();
+            services.RegisterIdentity(options: new RegisterIdentityOptions()
+            {
+                Lockout = new LockoutOption()
+                {
+                    AllowedForNewUsers = true,
+                    DefaultLockoutTimeSpan = apiConfiguration.DefaultLockoutMinutes > 0 ? TimeSpan.FromMinutes(apiConfiguration.DefaultLockoutMinutes) : TimeSpan.FromMinutes(3),
+                    MaxFailedAccessAttempts = apiConfiguration.MaxFailedAccessAttempts > 0 ? apiConfiguration.MaxFailedAccessAttempts : 3
+                }
+            });
             services.RegisterDataAccesses();
-            services.RegisterHandlers(apiConfiguration.EmailHost, apiConfiguration.EmailUserName, apiConfiguration.EmailPassword);
-
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.RegisterHandlers(options: new RegisterHandlerOptions()
             {
-                options.User.RequireUniqueEmail = true;
-
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireDigit = true;
-            })
-            .AddDefaultTokenProviders();
-
-            services.Configure<PasswordHasherOptions>(option =>
-            {
-                option.IterationCount = 12000;
+                Email = new EmailOption()
+                {
+                    Host = apiConfiguration.EmailHost,
+                    UserName = apiConfiguration.EmailUserName,
+                    Password = apiConfiguration.EmailPassword
+                }
             });
 
             services.AddControllers();

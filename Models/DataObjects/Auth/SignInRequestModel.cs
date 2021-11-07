@@ -1,4 +1,6 @@
-﻿namespace IgorMoura.Reminder.Models.DataObjects.Auth
+﻿using IgorMoura.Reminder.Models.Entities;
+
+namespace IgorMoura.Reminder.Models.DataObjects.Auth
 {
     public class SignInRequestModel
     {

@@ -7,15 +7,21 @@ namespace IgorMoura.Reminder.Services.Extensions
 {
     public static class IServiceCollectionExtension
     {
-        public static void RegisterHandlers(this IServiceCollection services, string emailHost = null, string emailUserName = null, string emailPassword = null)
+        public static void RegisterHandlers(this IServiceCollection services, RegisterHandlerOptions options = null)
         {
             services.AddSingleton<IReminderHandler, ReminderHandler>();
             services.AddTransient<IUserHandler, UserHandler>();
             services.AddTransient<IAuthHandler, AuthHandler>();
 
-            if (emailHost != null && emailUserName != null && emailPassword != null)
+            if (options != null)
             {
-                services.TryAddScoped(x => new EmailHandler(emailHost, emailUserName, emailPassword));
+                if (options.Email != null)
+                {
+                    if (options.Email.Host != null && options.Email.UserName != null && options.Email.Password != null)
+                    {
+                        services.TryAddScoped(x => new EmailHandler(options.Email.Host, options.Email.UserName, options.Email.Password));
+                    }
+                }
             }
         }
     }

@@ -26,11 +26,16 @@ namespace IgorMoura.Reminder.DAL.SqlServer
                 return DataResultBuilder<bool>.Error(new AuthResultCode().UserOrPasswordIncorrect);
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(identityUser, model.Password, false, false);
+            var signInResult = await _signInManager.PasswordSignInAsync(identityUser, model.Password, false, true);
 
-            if (!signInResult.Succeeded)
+            if (!signInResult.Succeeded && !signInResult.IsLockedOut)
             {
                 return DataResultBuilder<bool>.Error(new AuthResultCode().UserOrPasswordIncorrect);
+            }
+
+            if (!signInResult.Succeeded && signInResult.IsLockedOut)
+            {
+                return DataResultBuilder<bool>.Error(new AuthResultCode().UserLockedOut);
             }
 
             return DataResultBuilder<bool>.Success(true);

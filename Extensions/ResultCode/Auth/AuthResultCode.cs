@@ -3,5 +3,7 @@
     public class AuthResultCode : BaseResultCode
     {
         public BaseResultCode UserOrPasswordIncorrect { get { return new BaseResultCode() { Code = "UserOrPasswordIncorrect", Message = "User or password is incorrect" }; } }
+        public BaseResultCode UserLockedOut { get { return new BaseResultCode() { Code = "UserLockedOut", Message = "User is locked due to failed access attempts" }; } }
+
     }
 }

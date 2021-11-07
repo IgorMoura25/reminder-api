@@ -14,7 +14,10 @@ CREATE TABLE [dbo].[Users]
 	[PasswordHash] VARCHAR(MAX) NOT NULL,
 	[EmailConfirmed] BIT NOT NULL,
 	[IsActive] BIT NOT NULL,
-	[CreatedAt] DATETIME NOT NULL
+	[CreatedAt] DATETIME NOT NULL,
+	[LockoutEnabled] BIT NOT NULL,
+	[AccessFailedCount] INT NOT NULL,
+	[LockoutEnd] DATETIME NULL
 )
 GO
 

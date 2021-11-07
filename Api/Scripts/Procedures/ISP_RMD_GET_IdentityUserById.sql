@@ -16,7 +16,10 @@ BEGIN
 		Users.NormalizedEmail,
 		Users.IsActive,
 		Users.PasswordHash,
-		Users.EmailConfirmed
+		Users.EmailConfirmed,
+		Users.LockoutEnabled,
+		Users.AccessFailedCount,
+		Users.LockoutEnd
 	FROM
 		Users
 	WHERE

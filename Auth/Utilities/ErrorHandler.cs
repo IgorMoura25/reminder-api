@@ -17,6 +17,11 @@ namespace IgorMoura.Reminder.Auth.Utilities
                 return new AuthResult<T>(HttpStatusCode.BadRequest, new List<AuthError>() { new AuthError { InternalMessage = resultCode.Message, Code = resultCode.Code } });
             }
 
+            if (string.Equals(new AuthResultCode().UserLockedOut.Code, resultCode.Code))
+            {
+                return new AuthResult<T>(HttpStatusCode.Forbidden, new List<AuthError>() { new AuthError { InternalMessage = resultCode.Message, Code = resultCode.Code } });
+            }
+
             return new AuthResult<T>(HttpStatusCode.InternalServerError, new List<AuthError>() { new AuthError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
         }
     }

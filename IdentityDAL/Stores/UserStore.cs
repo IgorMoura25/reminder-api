@@ -7,7 +7,7 @@ using IgorMoura.IdentityDAL.DataObjects;
 
 namespace IgorMoura.IdentityDAL.Stores
 {
-    public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPasswordStore<IdentityUser>
+    public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPasswordStore<IdentityUser>, IUserLockoutStore<IdentityUser>
     {
         private IDbConnector _connector { get; }
 
@@ -67,7 +67,11 @@ namespace IgorMoura.IdentityDAL.Stores
                 NormalizedEmail = user.NormalizedEmail,
                 PasswordHash = user.PasswordHash,
                 IsActive = true,
-                CreatedAt = DateTime.Now
+                EmailConfirmed = user.EmailConfirmed,
+                CreatedAt = DateTime.Now,
+                LockoutEnabled = user.LockoutEnabled,
+                AccessFailedCount = user.AccessFailedCount,
+                LockoutEnd = user.LockoutEnd.HasValue ? user.LockoutEnd.Value.DateTime : (DateTime?)null
             };
 
             var result = _connector.ExecuteAddProcedure<long>("ISP_RMD_ADD_IdentityUser", requestModel);
@@ -92,7 +96,10 @@ namespace IgorMoura.IdentityDAL.Stores
                 Email = user.Email,
                 NormalizedEmail = user.NormalizedEmail,
                 PasswordHash = user.PasswordHash,
-                EmailConfirmed = user.EmailConfirmed
+                EmailConfirmed = user.EmailConfirmed,
+                LockoutEnabled = user.LockoutEnabled,
+                AccessFailedCount = user.AccessFailedCount,
+                LockoutEnd = user.LockoutEnd.HasValue ? user.LockoutEnd.Value.DateTime : (DateTime?)null
             };
 
             var result = _connector.ExecuteUpdateProcedure("ISP_RMD_UPD_IdentityUserById", requestModel);
@@ -147,7 +154,10 @@ namespace IgorMoura.IdentityDAL.Stores
                     NormalizedUserName = response.NormalizedUserName,
                     NormalizedEmail = response.NormalizedEmail,
                     PasswordHash = response.PasswordHash,
-                    EmailConfirmed = response.EmailConfirmed
+                    EmailConfirmed = response.EmailConfirmed,
+                    LockoutEnabled = response.LockoutEnabled,
+                    AccessFailedCount = response.AccessFailedCount,
+                    LockoutEnd = response.LockoutEnd
                 };
             }
 
@@ -177,7 +187,10 @@ namespace IgorMoura.IdentityDAL.Stores
                     NormalizedUserName = response.NormalizedUserName,
                     NormalizedEmail = response.NormalizedEmail,
                     PasswordHash = response.PasswordHash,
-                    EmailConfirmed = response.EmailConfirmed
+                    EmailConfirmed = response.EmailConfirmed,
+                    LockoutEnabled = response.LockoutEnabled,
+                    AccessFailedCount = response.AccessFailedCount,
+                    LockoutEnd = response.LockoutEnd
                 };
             }
 
@@ -233,7 +246,16 @@ namespace IgorMoura.IdentityDAL.Stores
             {
                 identityUser = new IdentityUser()
                 {
-                    Id = response.UserId.ToString()
+                    Id = response.UserId.ToString(),
+                    UserName = response.UserName,
+                    Email = response.Email,
+                    NormalizedUserName = response.NormalizedUserName,
+                    NormalizedEmail = response.NormalizedEmail,
+                    PasswordHash = response.PasswordHash,
+                    EmailConfirmed = response.EmailConfirmed,
+                    LockoutEnabled = response.LockoutEnabled,
+                    AccessFailedCount = response.AccessFailedCount,
+                    LockoutEnd = response.LockoutEnd
                 };
             }
 
@@ -277,6 +299,63 @@ namespace IgorMoura.IdentityDAL.Stores
             cancellationToken.ThrowIfCancellationRequested();
 
             return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash) && !string.IsNullOrWhiteSpace(user.PasswordHash));
+        }
+
+        public Task<DateTimeOffset?> GetLockoutEndDateAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.LockoutEnd);
+        }
+
+        public Task SetLockoutEndDateAsync(IdentityUser user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.LockoutEnd = lockoutEnd;
+
+            return Task.CompletedTask;
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.AccessFailedCount++;
+
+            return Task.FromResult(user.AccessFailedCount);
+        }
+
+        public Task ResetAccessFailedCountAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.AccessFailedCount = 0;
+
+            return Task.CompletedTask;
+        }
+
+        public Task<int> GetAccessFailedCountAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.AccessFailedCount);
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(IdentityUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.FromResult(user.LockoutEnabled);
+        }
+
+        public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            user.LockoutEnabled = enabled;
+
+            return Task.CompletedTask;
         }
 
         public void Dispose()

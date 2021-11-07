@@ -10,6 +10,8 @@ namespace IgorMoura.Reminder.Api.Configuration
         public string EmailHost { get; set; }
         public string EmailUserName { get; set; }
         public string EmailPassword { get; set; }
+        public double DefaultLockoutMinutes { get; set; }
+        public int MaxFailedAccessAttempts { get; set; }
 
         public ApiConfiguration(IConfiguration configuration)
         {
@@ -17,6 +19,24 @@ namespace IgorMoura.Reminder.Api.Configuration
             EmailHost = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_HOST");
             EmailUserName = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_USER_NAME");
             EmailPassword = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_PASSWORD");
+
+            var environmentString = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_DEFAULT_LOCKOUT_MINUTES");
+            double defaultLockoutMinutes;
+            bool success = double.TryParse(environmentString, out defaultLockoutMinutes);
+
+            if (success)
+            {
+                DefaultLockoutMinutes = defaultLockoutMinutes;
+            }
+
+            environmentString = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_MAX_FAILED_ACCESS_ATTEMPTS");
+            int maxFailedAccessAttempts;
+            success = int.TryParse(environmentString, out maxFailedAccessAttempts);
+
+            if (success)
+            {
+                MaxFailedAccessAttempts = maxFailedAccessAttempts;
+            }
         }
 
         public string LoadFromConfiguration(string name)

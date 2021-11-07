@@ -107,5 +107,24 @@ namespace IgorMoura.Reminder.DAL.SqlServer
 
             return await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
         }
+
+        public async Task<DataResult<bool>> CheckPasswordAsync(CheckPasswordRequestModel model)
+        {
+            var identityUser = await _userManager.FindByNameAsync(model.UserName);
+
+            if (identityUser == null)
+            {
+                return DataResultBuilder<bool>.Error(new UserResultCode().UserNotFound);
+            }
+
+            var identityResult = await _userManager.CheckPasswordAsync(identityUser, model.Password);
+
+            if (!identityResult)
+            {
+                return DataResultBuilder<bool>.Error(new UserResultCode().IncorrectPassword);
+            }
+
+            return DataResultBuilder<bool>.Success(true);
+        }
     }
 }

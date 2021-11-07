@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
 using IgorMoura.Reminder.Auth.Configuration;
 using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.Reminder.DAL.Extensions;
@@ -34,23 +33,14 @@ namespace Auth
             services.RegisterConnectors(authConfiguration.ConnectionString);
             services.RegisterIdentity();
             services.RegisterDataAccesses();
-            services.RegisterHandlers(authConfiguration.EmailHost, authConfiguration.EmailUserName, authConfiguration.EmailPassword);
-
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.RegisterHandlers(options: new RegisterHandlerOptions()
             {
-                options.User.RequireUniqueEmail = true;
-
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireDigit = true;
-            })
-            .AddDefaultTokenProviders();
-
-            services.Configure<PasswordHasherOptions>(option =>
-            {
-                option.IterationCount = 12000;
+                Email = new EmailOption()
+                {
+                    Host = authConfiguration.EmailHost,
+                    UserName = authConfiguration.EmailUserName,
+                    Password = authConfiguration.EmailPassword
+                }
             });
 
             services.AddControllers();
