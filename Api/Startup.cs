@@ -32,15 +32,7 @@ namespace IgorMoura.Reminder.Api
 
             // DI Registration
             services.RegisterConnectors(apiConfiguration.ConnectionString);
-            services.RegisterIdentity(options: new RegisterIdentityOptions()
-            {
-                Lockout = new LockoutOption()
-                {
-                    AllowedForNewUsers = true,
-                    DefaultLockoutTimeSpan = apiConfiguration.DefaultLockoutMinutes > 0 ? TimeSpan.FromMinutes(apiConfiguration.DefaultLockoutMinutes) : TimeSpan.FromMinutes(3),
-                    MaxFailedAccessAttempts = apiConfiguration.MaxFailedAccessAttempts > 0 ? apiConfiguration.MaxFailedAccessAttempts : 3
-                }
-            });
+            services.RegisterIdentity();
             services.RegisterDataAccesses();
             services.RegisterHandlers(options: new RegisterHandlerOptions()
             {

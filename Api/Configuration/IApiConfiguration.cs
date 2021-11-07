@@ -6,7 +6,5 @@
         public string EmailHost { get; set; }
         public string EmailUserName { get; set; }
         public string EmailPassword { get; set; }
-        public double DefaultLockoutMinutes { get; set; }
-        public int MaxFailedAccessAttempts { get; set; }
     }
 }

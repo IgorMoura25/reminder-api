@@ -312,7 +312,7 @@ namespace IgorMoura.IdentityDAL.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            user.LockoutEnd = lockoutEnd;
+            user.LockoutEnd = lockoutEnd?.ToLocalTime();
 
             return Task.CompletedTask;
         }

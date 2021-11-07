@@ -31,7 +31,15 @@ namespace Auth
 
             // DI Registration
             services.RegisterConnectors(authConfiguration.ConnectionString);
-            services.RegisterIdentity();
+            services.RegisterIdentity(customOptions: new RegisterIdentityOptions()
+            {
+                Lockout = new LockoutOption()
+                {
+                    AllowedForNewUsers = true,
+                    DefaultLockoutTimeSpan = authConfiguration.DefaultLockoutMinutes > 0 ? TimeSpan.FromMinutes(authConfiguration.DefaultLockoutMinutes) : TimeSpan.FromMinutes(3),
+                    MaxFailedAccessAttempts = authConfiguration.MaxFailedAccessAttempts > 0 ? authConfiguration.MaxFailedAccessAttempts : 3
+                }
+            });
             services.RegisterDataAccesses();
             services.RegisterHandlers(options: new RegisterHandlerOptions()
             {

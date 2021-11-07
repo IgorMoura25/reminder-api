@@ -11,6 +11,8 @@ namespace IgorMoura.Reminder.Auth.Configuration
         public string EmailUserName { get; set; }
         public string EmailPassword { get; set; }
         public string SecretKey { get; set; }
+        public double DefaultLockoutMinutes { get; set; }
+        public int MaxFailedAccessAttempts { get; set; }
 
         public AuthConfiguration(IConfiguration configuration)
         {
@@ -19,6 +21,24 @@ namespace IgorMoura.Reminder.Auth.Configuration
             EmailUserName = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_USER_NAME");
             EmailPassword = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_PASSWORD");
             SecretKey = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_SECRET_KEY");
+
+            var environmentString = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_DEFAULT_LOCKOUT_MINUTES");
+            double defaultLockoutMinutes;
+            bool success = double.TryParse(environmentString, out defaultLockoutMinutes);
+
+            if (success)
+            {
+                DefaultLockoutMinutes = defaultLockoutMinutes;
+            }
+
+            environmentString = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_MAX_FAILED_ACCESS_ATTEMPTS");
+            int maxFailedAccessAttempts;
+            success = int.TryParse(environmentString, out maxFailedAccessAttempts);
+
+            if (success)
+            {
+                MaxFailedAccessAttempts = maxFailedAccessAttempts;
+            }
         }
 
         public string LoadFromConfiguration(string name)

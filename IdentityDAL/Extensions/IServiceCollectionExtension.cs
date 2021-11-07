@@ -6,7 +6,7 @@ namespace IgorMoura.IdentityDAL.Extensions
 {
     public static class IServiceCollectionExtension
     {
-        public static void RegisterIdentity(this IServiceCollection services, RegisterIdentityOptions options = null)
+        public static void RegisterIdentity(this IServiceCollection services, RegisterIdentityOptions customOptions = null)
         {
             services.AddSingleton<IUserStore<IdentityUser>, UserStore>();
             services.AddSingleton<IRoleStore<IdentityRole>, RoleStore>();
@@ -22,13 +22,13 @@ namespace IgorMoura.IdentityDAL.Extensions
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireDigit = true;
 
-                if (options != null)
+                if (customOptions != null)
                 {
-                    if (options.Lockout != null)
+                    if (customOptions.Lockout != null)
                     {
-                        options.Lockout.AllowedForNewUsers = options.Lockout.AllowedForNewUsers;
-                        options.Lockout.DefaultLockoutTimeSpan = options.Lockout.DefaultLockoutTimeSpan;
-                        options.Lockout.MaxFailedAccessAttempts = options.Lockout.MaxFailedAccessAttempts;
+                        options.Lockout.AllowedForNewUsers = customOptions.Lockout.AllowedForNewUsers;
+                        options.Lockout.DefaultLockoutTimeSpan = customOptions.Lockout.DefaultLockoutTimeSpan;
+                        options.Lockout.MaxFailedAccessAttempts = customOptions.Lockout.MaxFailedAccessAttempts;
                     }
                 }
             })
