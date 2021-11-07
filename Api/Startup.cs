@@ -2,7 +2,6 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +25,7 @@ namespace IgorMoura.Reminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var teste = DotNetEnv.Env.Load();
+            DotNetEnv.Env.Load();
 
             IApiConfiguration apiConfiguration = new ApiConfiguration(Configuration);
             services.AddSingleton(apiConfiguration);
@@ -35,46 +34,17 @@ namespace IgorMoura.Reminder.Api
             services.RegisterConnectors(apiConfiguration.ConnectionString);
             services.RegisterIdentity();
             services.RegisterDataAccesses();
-            services.RegisterHandlers(apiConfiguration.IdentityEmailHost, apiConfiguration.IdentityEmailUserName, apiConfiguration.IdentityEmailPassword);
-
-            services.AddIdentityCore<IdentityUser>(options =>
+            services.RegisterHandlers(options: new RegisterHandlerOptions()
             {
-                options.User.RequireUniqueEmail = true;
-
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireDigit = true;
-            })
-            .AddDefaultTokenProviders();
-
-            services.Configure<PasswordHasherOptions>(option =>
-            {
-                option.IterationCount = 12000;
+                Email = new EmailOption()
+                {
+                    Host = apiConfiguration.EmailHost,
+                    UserName = apiConfiguration.EmailUserName,
+                    Password = apiConfiguration.EmailPassword
+                }
             });
 
             services.AddControllers();
-
-            // JWT
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("token-maior-que-256-bits-guid")),
-                    ClockSkew = TimeSpan.FromMinutes(5),
-                    ValidIssuer = "Reminder.Api",
-                    ValidAudience = "Postman"
-                };
-            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

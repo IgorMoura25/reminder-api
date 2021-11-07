@@ -17,6 +17,7 @@ namespace IgorMoura.Reminder.DAL.Extensions
         {
             services.AddSingleton<IReminderDao, ReminderSqlServerDao>();
             services.AddTransient<IUserDao, UserIdentitySqlServerDao>();
+            services.AddTransient<IAuthDao, AuthIdentitySqlServerDao>();
         }
     }
 }

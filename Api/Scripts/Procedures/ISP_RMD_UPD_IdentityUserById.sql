@@ -10,6 +10,9 @@ CREATE OR ALTER PROCEDURE [dbo].[ISP_RMD_UPD_IdentityUserById]
 	@NormalizedEmail VARCHAR(100),
 	@PasswordHash VARCHAR(MAX),
 	@EmailConfirmed BIT,
+	@LockoutEnabled BIT,
+	@AccessFailedCount INT,
+	@LockoutEnd DATETIME = NULL,
 	@UserId BIGINT
 )
 AS
@@ -17,13 +20,15 @@ BEGIN
 	UPDATE
 		Users
 	SET
-		UserId = @OperationUserId,
 		UserName = @UserName,
 		NormalizedUserName = @NormalizedUserName,
 		Email = @Email,
 		NormalizedEmail = @NormalizedEmail,
 		PasswordHash = @PasswordHash,
-		EmailConfirmed = @EmailConfirmed
+		EmailConfirmed = @EmailConfirmed,
+		LockoutEnabled = @LockoutEnabled,
+		AccessFailedCount = @AccessFailedCount,
+		LockoutEnd = @LockoutEnd
 	WHERE
 		Users.UserId = @OperationUserId
 END

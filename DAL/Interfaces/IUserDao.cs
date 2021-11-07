@@ -11,5 +11,6 @@ namespace IgorMoura.Reminder.DAL.Interfaces
         public Task<DataResult<UserEntity>> GetByNameAsync(string userName);
         public Task<DataResult<bool>> ConfirmUserEmailAsync(ConfirmUserEmailRequestModel model);
         public Task<string> GenerateEmailConfirmationTokenAsync(UserEntity user);
+        public Task<DataResult<bool>> CheckPasswordAsync(CheckPasswordRequestModel model);
     }
 }

@@ -3,8 +3,8 @@
     public interface IApiConfiguration
     {
         public string ConnectionString { get; set; }
-        public string IdentityEmailHost { get; set; }
-        public string IdentityEmailUserName { get; set; }
-        public string IdentityEmailPassword { get; set; }
+        public string EmailHost { get; set; }
+        public string EmailUserName { get; set; }
+        public string EmailPassword { get; set; }
     }
 }

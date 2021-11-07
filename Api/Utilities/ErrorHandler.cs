@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Collections.Generic;
 using IgorMoura.Reminder.Extensions.ResultCode;
 using IgorMoura.Reminder.Extensions.ResultCode.Reminder;
@@ -56,11 +55,6 @@ namespace IgorMoura.Reminder.Api.Utilities
                 return new ApiResult<T>(HttpStatusCode.BadRequest, listErrors);
             }
 
-            return new ApiResult<T>(HttpStatusCode.InternalServerError, new List<ApiError>() { new ApiError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
-        }
-
-        public static ApiResult<T> HandleAuthorizationErrors<T>(Exception ex)
-        {
             return new ApiResult<T>(HttpStatusCode.InternalServerError, new List<ApiError>() { new ApiError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
         }
     }

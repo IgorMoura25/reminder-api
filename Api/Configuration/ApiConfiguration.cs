@@ -7,16 +7,16 @@ namespace IgorMoura.Reminder.Api.Configuration
         private const string CONFIGURATION_PREFIX = "RMD_API";
 
         public string ConnectionString { get; set; }
-        public string IdentityEmailHost { get; set; }
-        public string IdentityEmailUserName { get; set; }
-        public string IdentityEmailPassword { get; set; }
+        public string EmailHost { get; set; }
+        public string EmailUserName { get; set; }
+        public string EmailPassword { get; set; }
 
         public ApiConfiguration(IConfiguration configuration)
         {
             ConnectionString = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_CONNECTION_STRING");
-            IdentityEmailHost = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_IDENTITY_EMAIL_HOST");
-            IdentityEmailUserName = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_IDENTITY_EMAIL_USER_NAME");
-            IdentityEmailPassword = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_IDENTITY_EMAIL_PASSWORD");
+            EmailHost = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_HOST");
+            EmailUserName = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_USER_NAME");
+            EmailPassword = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_PASSWORD");
         }
 
         public string LoadFromConfiguration(string name)
