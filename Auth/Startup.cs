@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Tokens;
 using IgorMoura.Reminder.Auth.Configuration;
 using IgorMoura.Reminder.Services.Extensions;
 using IgorMoura.Reminder.DAL.Extensions;
@@ -52,25 +51,6 @@ namespace Auth
             });
 
             services.AddControllers();
-
-            // JWT
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(authConfiguration.SecretKey)),
-                    ClockSkew = TimeSpan.FromMinutes(5),
-                    ValidIssuer = "Reminder.Auth"
-                };
-            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

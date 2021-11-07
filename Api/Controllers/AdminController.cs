@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Services.Interfaces;
 using IgorMoura.Reminder.Models.Entities;
@@ -9,6 +10,7 @@ using IgorMoura.Reminder.Models.DataObjects.User;
 namespace IgorMoura.Reminder.Api.Controllers
 {
     [ApiController]
+    [Authorize()]
     [Route("admin")]
     public partial class AdminController : ControllerBase
     {
