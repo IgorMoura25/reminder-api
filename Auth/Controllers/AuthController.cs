@@ -57,10 +57,10 @@ namespace IgorMoura.Reminder.Auth.Controllers
         private string GenerateToken(AuthorizeApiRequestModel model)
         {
             var claims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, model.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, model.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
 
             var credentials = new SigningCredentials(
@@ -69,6 +69,7 @@ namespace IgorMoura.Reminder.Auth.Controllers
 
             var token = new JwtSecurityToken(
                 issuer: "Reminder.Auth",
+                audience: "Reminder.Api",
                 claims: claims,
                 signingCredentials: credentials,
                 expires: DateTime.Now.AddMinutes(30)

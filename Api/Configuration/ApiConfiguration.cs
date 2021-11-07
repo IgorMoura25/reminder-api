@@ -10,6 +10,7 @@ namespace IgorMoura.Reminder.Api.Configuration
         public string EmailHost { get; set; }
         public string EmailUserName { get; set; }
         public string EmailPassword { get; set; }
+        public string SecretKey { get; set; }
 
         public ApiConfiguration(IConfiguration configuration)
         {
@@ -17,6 +18,7 @@ namespace IgorMoura.Reminder.Api.Configuration
             EmailHost = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_HOST");
             EmailUserName = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_USER_NAME");
             EmailPassword = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_EMAIL_PASSWORD");
+            SecretKey = LoadFromConfiguration($"{CONFIGURATION_PREFIX}_SECRET_KEY");
         }
 
         public string LoadFromConfiguration(string name)

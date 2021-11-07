@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using IgorMoura.Reminder.Api.Utilities;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
@@ -8,6 +9,7 @@ using IgorMoura.Reminder.Models.DataObjects.Reminder;
 namespace IgorMoura.Reminder.Api.Controllers
 {
     [ApiController]
+    [Authorize()]
     public class ReminderController : ControllerBase
     {
         #region Handlers
