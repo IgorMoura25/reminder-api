@@ -23,6 +23,18 @@ namespace IgorMoura.Reminder.Services.Handlers
 
         public async Task<ServiceResult<bool>> SignInAsync(SignInEntity model)
         {
+            var user = await _userDao.GetByNameAsync(model.UserName);
+
+            if (!user.Succeeded)
+            {
+                return ServiceResultBuilder<bool>.Error(user.Result);
+            }
+
+            if (!user.Data.EmailConfirmed)
+            {
+                return ServiceResultBuilder<bool>.Error(new AuthResultCode().EmailNotConfirmed);
+            }
+
             var dataResult = await _authDao.SignInAsync(new SignInRequestModel()
             {
                 UserName = model.UserName,
