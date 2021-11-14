@@ -19,7 +19,7 @@ namespace IgorMoura.Reminder.Services.Extensions
                 {
                     if (options.Email.Host != null && options.Email.UserName != null && options.Email.Password != null)
                     {
-                        services.TryAddScoped(x => new EmailHandler(options.Email.Host, options.Email.UserName, options.Email.Password));
+                        services.TryAddScoped<IEmailHandler>(x => new EmailHandler(options.Email.Host, options.Email.UserName, options.Email.Password));
                     }
                 }
             }

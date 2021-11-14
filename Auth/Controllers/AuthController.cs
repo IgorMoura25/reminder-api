@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
+using IgorMoura.Reminder.Auth.Configuration;
+using IgorMoura.Reminder.Auth.Utilities;
 using IgorMoura.Reminder.Models.DataObjects.Auth;
 using IgorMoura.Reminder.Models.Entities;
 using IgorMoura.Reminder.Services.Interfaces;
-using IgorMoura.Reminder.Auth.Configuration;
-using IgorMoura.Reminder.Auth.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IgorMoura.Reminder.Auth.Controllers
 {
@@ -50,6 +50,45 @@ namespace IgorMoura.Reminder.Auth.Controllers
             var token = GenerateToken(model);
 
             var result = new AuthResult<string>(HttpStatusCode.OK, token);
+
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpPost]
+        [Route("password-redefinition-token")]
+        public async Task<IActionResult> GeneratePasswordRedefinitionTokenAsync([FromBody] GeneratePasswordRedefinitionTokenApiRequestModel model)
+        {
+            var response = await _authHandler.GeneratePasswordRedefinitionTokenAsync(new PasswordRedefinitionTokenEntity()
+            {
+                Email = model.Email
+            });
+
+            if (!response.Succeeded)
+            {
+                var errors = ErrorHandler.HandleAuthorizationErrors<string>(response.Result);
+
+                return StatusCode((int)errors.StatusCode, errors);
+            }
+
+            var result = new AuthResult<bool>(HttpStatusCode.OK, true);
+
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordEntity model)
+        {
+            var response = await _authHandler.ResetPasswordAsync(model);
+
+            if (!response.Succeeded)
+            {
+                var errors = ErrorHandler.HandleAuthorizationErrors<bool>(response.Result);
+
+                return StatusCode((int)errors.StatusCode, errors);
+            }
+
+            var result = new AuthResult<bool>(HttpStatusCode.OK, response.Data);
 
             return StatusCode((int)result.StatusCode, result);
         }
