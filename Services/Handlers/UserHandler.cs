@@ -13,9 +13,9 @@ namespace IgorMoura.Reminder.Services.Handlers
     public class UserHandler : IUserHandler
     {
         private IUserDao _userDao { get; }
-        private EmailHandler _emailHandler { get; set; }
+        private IEmailHandler _emailHandler { get; set; }
 
-        public UserHandler(IUserDao userDao, EmailHandler emailHandler)
+        public UserHandler(IUserDao userDao, IEmailHandler emailHandler)
         {
             _userDao = userDao;
             _emailHandler = emailHandler;

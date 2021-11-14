@@ -31,7 +31,8 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             {
                 UserId = Convert.ToInt64(identityUser.Id),
                 UserName = identityUser.UserName,
-                Email = identityUser.Email
+                Email = identityUser.Email,
+                EmailConfirmed = identityUser.EmailConfirmed
             };
 
             return DataResultBuilder<UserEntity>.Success(user);
@@ -50,7 +51,8 @@ namespace IgorMoura.Reminder.DAL.SqlServer
             {
                 UserId = Convert.ToInt64(identityUser.Id),
                 UserName = identityUser.UserName,
-                Email = identityUser.Email
+                Email = identityUser.Email,
+                EmailConfirmed = identityUser.EmailConfirmed
             };
 
             return DataResultBuilder<UserEntity>.Success(user);

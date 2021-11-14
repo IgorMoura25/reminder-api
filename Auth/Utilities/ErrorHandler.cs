@@ -22,6 +22,22 @@ namespace IgorMoura.Reminder.Auth.Utilities
                 return new AuthResult<T>(HttpStatusCode.Forbidden, new List<AuthError>() { new AuthError { InternalMessage = resultCode.Message, Code = resultCode.Code } });
             }
 
+            if (string.Equals(new AuthResultCode().EmailNotConfirmed.Code, resultCode.Code))
+            {
+                return new AuthResult<T>(HttpStatusCode.Forbidden, new List<AuthError>() { new AuthError { InternalMessage = resultCode.Message, Code = resultCode.Code } });
+            }
+
+            if (string.Equals(new AuthResultCode().ResetPasswordOperationError.Code, resultCode.Code))
+            {
+                var listErrors = resultCode.Errors?.ConvertAll(x => new AuthError()
+                {
+                    InternalMessage = x.Description,
+                    Code = x.Code
+                });
+
+                return new AuthResult<T>(HttpStatusCode.BadRequest, listErrors);
+            }
+
             return new AuthResult<T>(HttpStatusCode.InternalServerError, new List<AuthError>() { new AuthError { InternalMessage = _internalServerErrorDefaultMessage, Code = _internalServerErrorCode } });
         }
     }

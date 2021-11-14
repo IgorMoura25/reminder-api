@@ -50,9 +50,9 @@ namespace IgorMoura.Reminder.Api.Controllers
 
         [HttpPost]
         [Route("user/confirmation")]
-        public async Task<IActionResult> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity user)
+        public async Task<IActionResult> ConfirmUserEmailAsync([FromBody] EmailConfirmationEntity model)
         {
-            var response = await _userHandler.ConfirmUserEmailAsync(user);
+            var response = await _userHandler.ConfirmUserEmailAsync(model);
 
             if (!response.Succeeded)
             {
